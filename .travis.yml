@@ -1,0 +1,26 @@
+dist: trusty
+sudo: required
+branches:
+  only:
+  - master
+addons:
+  sonarcloud:
+    organization: "pawelpaszki-github"
+    token:
+        secure: "EFVJriim3/eAdPFS4ckwJGEDgUerm9jUGFM4RTI7HokyyDopPrVf6NbbY9v/TdUULo6nJWUe9oH63O7IC37gOL16v5ySaqtXzfoA1HZLeNZ8X9gxaTpSsxcdrQYcpwLKuMIJDUXTZBRbeGntJptEwwWamskNMgKcKmpacBi07W5AvvK4PlNDQUQIjXXGPTm9RBIoMCutiM39PnbUdyrx/zvGbNEJCnnGVoR43Q0pvSsJIejVGnf8KKGy69gj8n6aRVWmt0NzFwBHTdkKI+F2ND9Su5m7h1GrJSGGIWaMe9vqshFAtM8xEZzcf/ce292HLeL7zU3Sf0buSN09xODEAml+QR0U9WhJ0QTUQR60Tp0vV5fU/7StHjpiPb6QRq90YnXOfzl+ygsQYQRePvkQshU/icafeUh5DMNUedx0nBDigSB0XlN/fUPfbq1XnJ0CGuRXNjk/TLrBJECfKxVReciBkxZ0C7/Aq0V0T3q1cVrbkOd+JysufjzmIUjJBbbYgPvlZRa70j6ju0zUenwypv0nzIW6NC/hlPLpM7gbAa8HD6vy3YMwTziRouwKYmuzYAbGfVlkcupaaPIjB9FxTVfhYISwcjrD1xmjE9A3wR/+XQ2MuCLgeczHravFU+Y/IauZMvmIARQvJGgVzSIwKuoI8m43fug4/V0Ifnx45TA="
+language: node_js
+node_js: 6.12.3
+before_install:  
+  - export CHROME_BIN=/usr/bin/google-chrome
+  - export DISPLAY=:99.0 
+  - sh -e /etc/init.d/xvfb start
+  - sudo apt-get update
+  - sudo apt-get install -y libappindicator1 fonts-liberation
+  - wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+  - sudo dpkg -i google-chrome*.deb
+install:
+- npm install
+notifications:
+  email:
+    on_success: never
+    on_failure: always
