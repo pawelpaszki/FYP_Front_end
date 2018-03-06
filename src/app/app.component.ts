@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,7 @@ import { Component } from '@angular/core';
   templateUrl: './app.component.html',
 })
 export class AppComponent {
-  public title = 'new application';
+  public constructor(private titleService: Title ) {
+    this.titleService.setTitle( 'Docker vulnerability manager' );
+  }
 }
