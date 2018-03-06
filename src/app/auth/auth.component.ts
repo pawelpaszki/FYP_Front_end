@@ -14,6 +14,7 @@ export class AuthComponent implements OnInit {
   public username: FormControl;
   public password: FormControl;
   public invalidCredentials: boolean = false;
+  public signUpUnsuccessful: boolean = false;
   public authAction = 'login';
   private authAttempted: boolean;
 
@@ -33,31 +34,24 @@ export class AuthComponent implements OnInit {
   public authenticate(formValues) {
     this.authAttempted = true;
     if (this.authAction === 'login') {
-      if (this.password.valid && this.password.valid) {
-        this.authService.loginUser(formValues.email, formValues.password).subscribe((resp) => {
+      if (this.username.valid && this.password.valid) {
+        this.authService.loginUser(formValues.username, formValues.password).subscribe(() => {
             this.router.navigate(['images']);
           },
-          (error) => {
+          () => {
             this.invalidCredentials = true;
           });
       }
     } else {
       console.log('signup', formValues);
       if (this.authForm.valid) {
-        this.authService.signUpUser(formValues.email, formValues.password).subscribe((resp) => {
-          if (!resp) {
-            console.log('not signed up');
-          } else {
-            this.authService.loginUser(formValues.email, formValues.password).subscribe((response) => {
-              if (!response) {
-                console.log('unauthenticated');
-              } else {
-                console.log(this.authService.currentUser);
-                this.router.navigate(['images']);
-              }
-            });
-          }
-        });
+        this.authService.signUpUser(formValues.username, formValues.password).subscribe((resp) => {
+          console.log(resp);
+          this.router.navigate(['images']);
+          },
+          () => {
+            this.signUpUnsuccessful = true;
+          });
       }
     }
   }
@@ -73,6 +67,7 @@ export class AuthComponent implements OnInit {
 
   public setAuthAction(value) {
     this.authAction = value;
+    this.invalidCredentials = false;
+    this.signUpUnsuccessful = false;
   }
-
 }

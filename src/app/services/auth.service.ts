@@ -12,30 +12,30 @@ const httpOptions = {
 
 @Injectable()
 export class AuthService {
-  public currentUser: any;
 
   constructor(private router: Router, private http: HttpClient) {
 
   }
 
-  public loginUser(email: string, password: string): Observable<any> {
+  public loginUser(username: string, password: string): Observable<any> {
     // this.loginAttempted = true;
-    const loginInfo = { email, password };
-    return this.http.post<any>('https://pawelpaszki-ent-dev.herokuapp.com/api/authenticate',
+    const loginInfo = { username, password };
+    return this.http.post<any>('http://localhost:3000/api/login',
       loginInfo, httpOptions).pipe(
-      tap((user: any) => this.currentUser = user.user,
+      tap((data: any) =>
+        localStorage.setItem('token', data.token),
         catchError(this.handleError<any>('login user'))),
     );
 
   }
 
   public signUpUser(email: string, password: string): Observable<any> {
-    // this.signupAttempted = true;
     const loginInfo = { email, password };
-    return this.http.post<any>('https://pawelpaszki-ent-dev.herokuapp.com/api/signup', loginInfo, httpOptions).pipe(
-      tap((user: any) =>
-        catchError(this.handleError<any>('login user'))),
-    );
+    return this.http.post<any>('http://localhost:3000/api/register', loginInfo, httpOptions).pipe(
+        tap((data: any) =>
+          localStorage.setItem('token', data.token),
+          catchError(this.handleError<any>('sign up user'))),
+      );
   }
 
   public handleError<T>(operation = 'operation', result?: T) {
@@ -45,7 +45,7 @@ export class AuthService {
   }
 
   public logout() {
-    this.currentUser = null;
+    localStorage.setItem('token', '');
     this.router.navigate(['login']);
   }
 }

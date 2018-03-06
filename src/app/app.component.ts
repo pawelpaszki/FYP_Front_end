@@ -7,6 +7,7 @@ import { Title } from '@angular/platform-browser';
   templateUrl: './app.component.html',
 })
 export class AppComponent {
+
   public constructor(private titleService: Title ) {
     this.titleService.setTitle( 'Docker vulnerability manager' );
   }
