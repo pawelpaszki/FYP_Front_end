@@ -1,4 +1,6 @@
+import {HttpClientModule} from '@angular/common/http';
 import { NgModule } from '@angular/core';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { BrowserModule, Title } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { AboutComponent } from './about/about.component';
@@ -10,6 +12,7 @@ import { DockerHubSearchComponent } from './docker-hub-search/docker-hub-search.
 import { ImagesComponent } from './images/images.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { appRoutes } from './routes';
+import {AuthService} from './services/auth.service';
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -25,8 +28,11 @@ import { appRoutes } from './routes';
   ],
   imports: [
     BrowserModule,
+    FormsModule,
+    HttpClientModule,
+    ReactiveFormsModule,
     RouterModule.forRoot(appRoutes, { useHash: true }),
   ],
-  providers: [ Title ],
+  providers: [ AuthService, Title ],
 })
 export class AppModule { }
