@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {ToasterConfig} from 'angular2-toaster';
 
 @Component({
   selector: 'app-images',
@@ -10,6 +11,6 @@ export class ImagesComponent implements OnInit {
   constructor() { }
 
   public ngOnInit() {
+    console.log(localStorage.getItem('token'));
   }
-
 }
