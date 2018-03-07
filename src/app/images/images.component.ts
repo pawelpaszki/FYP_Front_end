@@ -26,11 +26,11 @@ export class ImagesComponent implements OnInit {
     this.showFreshnessDefinition = false;
   }
 
-  public mouseEnter(){
+  public mouseEnter() {
     this.showFreshnessDefinition = true;
   }
 
-  public mouseLeave(){
+  public mouseLeave() {
     this.showFreshnessDefinition = false;
   }
 }

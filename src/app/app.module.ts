@@ -9,6 +9,7 @@ import { AboutComponent } from './about/about.component';
 import { AccountComponent } from './account/account.component';
 import { AppComponent } from './app.component';
 import { AuthComponent } from './auth/auth.component';
+import {ChartComponent} from './chart/chart.component';
 import { ContainersComponent } from './containers/containers.component';
 import { DockerHubSearchComponent } from './docker-hub-search/docker-hub-search.component';
 import {FreshnessDefinitionComponent} from './images/freshness-definition.component';
@@ -30,6 +31,7 @@ import {ImageService} from './services/image.service';
     AboutComponent,
     AuthComponent,
     AccountComponent,
+    ChartComponent,
     FreshnessDefinitionComponent,
     FreshnessIndicatorComponent,
     DockerHubSearchComponent,

@@ -189,3 +189,12 @@ button.toast-close-button {
     width: 25em;
   }
 }
+
+.noEvents {
+  border: none;
+  pointer-events: none;
+}
+
+.transparent {
+  opacity: 0;
+}
