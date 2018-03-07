@@ -22,7 +22,6 @@ export class ImagesComponent implements OnInit {
   }
 
   public ngOnInit() {
-    console.log(localStorage.getItem('token'));
     this.showFreshnessDefinition = false;
   }
 
@@ -32,5 +31,14 @@ export class ImagesComponent implements OnInit {
 
   public mouseLeave() {
     this.showFreshnessDefinition = false;
+  }
+
+  public removeImage(id: string) {
+    this.imageService.removeImage(id).subscribe(() => {
+      this.imageService.getImages().subscribe((resp) => {
+        this.images = (resp as any).imagesList;
+      });
+      },
+    );
   }
 }

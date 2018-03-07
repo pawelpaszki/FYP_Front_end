@@ -14,7 +14,6 @@ export class HttpErrorInterceptService implements HttpInterceptor {
   constructor(private toastr: ToastrService) { }
 
   public intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    // console.log(req);
     return next.handle(req)
       .do((ev: HttpEvent<any>) => {
         if (ev instanceof HttpResponse) {
@@ -25,10 +24,16 @@ export class HttpErrorInterceptService implements HttpInterceptor {
         if (response instanceof HttpErrorResponse) {
           if (response.error.error !== null) {
             // console.log(response.url.toString());
-            if (response.url.toString().includes('login') || response.url.toString().includes('register')) {
+            if (response.url.toString().includes('login') ||
+              response.url.toString().includes('register')) {
               this.toastr.error(response.error.error, 'Error');
             } else {
-              this.toastr.warning(response.error.error, 'Error');
+              if (response.error.error === 'No token provided.' ||
+                response.error.error === 'Unable to authenticate token.') {
+                this.toastr.error('Unauthorized to perform this operation', 'Error');
+              } else {
+                this.toastr.warning(response.error.error, 'Error');
+              }
             }
           } else {
             this.toastr.error('', 'Error occured');
