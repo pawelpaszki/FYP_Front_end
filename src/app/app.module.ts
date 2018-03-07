@@ -11,11 +11,14 @@ import { AppComponent } from './app.component';
 import { AuthComponent } from './auth/auth.component';
 import { ContainersComponent } from './containers/containers.component';
 import { DockerHubSearchComponent } from './docker-hub-search/docker-hub-search.component';
+import {FreshnessDefinitionComponent} from './images/freshness-definition.component';
+import {FreshnessIndicatorComponent} from './images/freshness-indicator.component';
 import { ImagesComponent } from './images/images.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { appRoutes } from './routes';
 import {AuthService} from './services/auth.service';
 import {HttpErrorInterceptService} from './services/http-error-intercept.service';
+import {ImageService} from './services/image.service';
 
 
 @NgModule({
@@ -27,6 +30,8 @@ import {HttpErrorInterceptService} from './services/http-error-intercept.service
     AboutComponent,
     AuthComponent,
     AccountComponent,
+    FreshnessDefinitionComponent,
+    FreshnessIndicatorComponent,
     DockerHubSearchComponent,
     NavbarComponent,
   ],
@@ -42,6 +47,7 @@ import {HttpErrorInterceptService} from './services/http-error-intercept.service
   providers: [
     AuthService,
     HttpErrorInterceptService,
+    ImageService,
     Title,
     {
       multi: true,

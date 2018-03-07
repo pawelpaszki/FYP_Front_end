@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {ToasterConfig} from 'angular2-toaster';
+import {ImageService} from '../services/image.service';
+import {IImageModel} from './image.model';
 
 @Component({
   selector: 'app-images',
@@ -8,9 +9,28 @@ import {ToasterConfig} from 'angular2-toaster';
 })
 export class ImagesComponent implements OnInit {
 
-  constructor() { }
+  public images: IImageModel[] = [];
+
+  public showFreshnessDefinition: boolean;
+
+  constructor(private imageService: ImageService) {
+    this.imageService.getImages().subscribe((resp) => {
+      console.log(resp);
+      this.images = (resp as any).imagesList;
+      console.log(this.images);
+    });
+  }
 
   public ngOnInit() {
     console.log(localStorage.getItem('token'));
+    this.showFreshnessDefinition = false;
+  }
+
+  public mouseEnter(){
+    this.showFreshnessDefinition = true;
+  }
+
+  public mouseLeave(){
+    this.showFreshnessDefinition = false;
   }
 }
