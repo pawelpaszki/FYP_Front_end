@@ -16,6 +16,7 @@
         120
       ]
     },
+    "no-empty": false,
     "no-console": [false],
     "new-parens": true,
     "no-arg": true,
