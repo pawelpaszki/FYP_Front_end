@@ -9,7 +9,6 @@ const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
 };
 
-
 @Injectable()
 export class AuthService {
 
@@ -26,7 +25,6 @@ export class AuthService {
         localStorage.setItem('token', data.token),
         catchError(this.handleError<any>('login user'))),
     );
-
   }
 
   public signUpUser(email: string, password: string): Observable<any> {
