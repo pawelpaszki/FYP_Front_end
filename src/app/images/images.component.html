@@ -19,7 +19,7 @@
   <div class="col-md-2"><app-freshness-indicator [grade]="image.freshnessGrade"></app-freshness-indicator></div>
   <div class="col-md-4">
     <button class="btn btn-success btn-sm"><span class="glyphicon glyphicon-plus"></span> new container</button>
-    <button class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-open-eye"></span> show vulnerability chart</button>
-    <button *ngIf="image.freshnessGrade == ''" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-remove"></span> remove image</button>
+    <button [ngClass]="image.freshnessGrade ==='' ? 'noEvents transparent btn btn-primary btn-sm' : 'btn btn-primary btn-sm'" [routerLink]="['/chart', image.name]"><span class="glyphicon glyphicon-eye-open"></span> show vulnerability chart</button>
+    <button *ngIf="image.freshnessGrade === ''" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-remove"></span> remove image</button>
   </div>
 </div>

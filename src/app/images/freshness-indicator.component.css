@@ -29,8 +29,3 @@ button {
 .white {
   background: white;
 }
-
-.noEvents {
-  border: none;
-  pointer-events: none;
-}
