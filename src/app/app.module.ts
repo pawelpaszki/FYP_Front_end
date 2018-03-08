@@ -18,6 +18,7 @@ import { ImagesComponent } from './images/images.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { appRoutes } from './routes';
 import {AuthService} from './services/auth.service';
+import {ContainerService} from './services/container.service';
 import {HttpErrorInterceptService} from './services/http-error-intercept.service';
 import {ImageService} from './services/image.service';
 import {OnAuthRouteActivator} from './shared/onAuthRouteActivator';
@@ -49,6 +50,7 @@ import {OnAuthRouteActivator} from './shared/onAuthRouteActivator';
   ],
   providers: [
     AuthService,
+    ContainerService,
     HttpErrorInterceptService,
     ImageService,
     OnAuthRouteActivator,

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {Event, NavigationEnd, Router} from '@angular/router';
 import {AuthService} from '../services/auth.service';
 
 @Component({
@@ -9,16 +10,19 @@ import {AuthService} from '../services/auth.service';
 export class NavbarComponent implements OnInit {
 
   private token: string;
-  constructor(private authService: AuthService) {
+  constructor(private authService: AuthService, private router: Router) {
 
   }
 
   public ngOnInit() {
-    this.token = localStorage.getItem('token');
+    this.router.events.subscribe((event: Event) => {
+      if (event instanceof NavigationEnd) {
+        this.token = localStorage.getItem('token');
+      }
+    });
   }
 
   public logout() {
-    window.location.reload();
     this.authService.logout();
   }
 
