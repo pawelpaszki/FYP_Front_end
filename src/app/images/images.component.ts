@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {ContainerService} from '../services/container.service';
 import {ImageService} from '../services/image.service';
 import {IImageModel} from './image.model';
 
@@ -13,7 +14,7 @@ export class ImagesComponent implements OnInit {
   public showFreshnessDefinition: boolean;
   private token: string;
 
-  constructor(private imageService: ImageService) {
+  constructor(private imageService: ImageService, private containerService: ContainerService) {
     this.getImagesList();
   }
 
@@ -42,6 +43,11 @@ export class ImagesComponent implements OnInit {
     this.imageService.getImages().subscribe((resp) => {
       this.images = (resp as any).imagesList;
     });
+  }
+
+  public createContainer(name: string) {
+    console.log('create container');
+    this.containerService.createContainer(name).subscribe(() => {});
   }
 
   public sort() {

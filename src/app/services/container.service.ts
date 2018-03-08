@@ -18,20 +18,19 @@ export class ContainerService {
 
   public getContainers(): Observable<any[]> {
     const token: string = localStorage.getItem('token');
-    const headers = new HttpHeaders({ 'x-access-token': token, '_id': '123'});
+    const headers = new HttpHeaders({ 'x-access-token': token});
     return this.http.get<any[]>('http://localhost:3000/api/containers', {headers}).pipe(
         tap(() => {}),
       );
   }
-  //
-  // public removeImage(id: string): Observable<any> {
-  //   const token: string = localStorage.getItem('token');
-  //   const authHttpOptions = {
-  //     headers: new HttpHeaders({ 'Content-Type': 'application/json', 'x-access-token': token }),
-  //   };
-  //   return this.http.delete<any>('http://localhost:3000/api/images/' + id, authHttpOptions).pipe(
-  //     tap((_) =>
-  //       this.toastr.success('Image removed. id: ' + id, 'Success')),
-  //   );
-  // }
+
+  public createContainer(imageName: string): Observable<any[]> {
+    const token: string = localStorage.getItem('token');
+    const headers = new HttpHeaders({ 'x-access-token': token});
+    return this.http.post<any[]>('http://localhost:3000/api/containers/create', {imageName}, {headers}).pipe(
+      tap((_) =>
+        this.toastr.success('Container created: ' + imageName, 'Success')),
+    );
+  }
+
 }
