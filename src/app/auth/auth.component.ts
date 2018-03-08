@@ -37,6 +37,7 @@ export class AuthComponent implements OnInit {
       if (this.username.valid && this.password.valid) {
         this.authService.loginUser(formValues.username, formValues.password).subscribe(() => {
             this.router.navigate(['images']);
+            window.location.reload();
           },
           () => {
             this.invalidCredentials = true;
@@ -48,6 +49,7 @@ export class AuthComponent implements OnInit {
         this.authService.signUpUser(formValues.username, formValues.password).subscribe((resp) => {
           console.log(resp);
           this.router.navigate(['images']);
+          window.location.reload();
           },
           () => {
             this.signUpUnsuccessful = true;
