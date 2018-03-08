@@ -5,14 +5,14 @@
     </div>
     <ul class="nav navbar-nav">
       <li><a class="hvr-underline" [routerLink]="['/images']" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}"> Images </a></li>
-      <li><a class="hvr-underline" [routerLink]="['/containers']" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}"> Containers </a></li>
-      <li><a class="hvr-underline" [routerLink]="['/search']" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}"> Search Docker Hub </a></li>
+      <li><a *ngIf="token !== ''" class="hvr-underline" [routerLink]="['/containers']" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}"> Containers </a></li>
+      <li><a *ngIf="token !== ''" class="hvr-underline" [routerLink]="['/search']" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}"> Search Docker Hub </a></li>
     </ul>
     <ul class="nav navbar-nav navbar-right">
       <li><a class="hvr-underline" [routerLink]="['/about']" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}"><span class="glyphicon glyphicon-info-sign"></span> About</a></li>
-      <li><a class="hvr-underline" [routerLink]="['/account']" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}"><span class="glyphicon glyphicon-user"></span> Account</a></li>
-      <li><a class="hvr-underline" [routerLink]="['/login']" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-      <li><a class="hvr-underline" (click)="logout()"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+      <li><a *ngIf="token !== ''" class="hvr-underline" [routerLink]="['/account']" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}"><span class="glyphicon glyphicon-user"></span> Account</a></li>
+      <li><a *ngIf="token === ''" class="hvr-underline" [routerLink]="['/login']" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+      <li><a *ngIf="token !== ''" class="hvr-underline" (click)="logout()"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
     </ul>
   </div>
 </nav>

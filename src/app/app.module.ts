@@ -20,6 +20,7 @@ import { appRoutes } from './routes';
 import {AuthService} from './services/auth.service';
 import {HttpErrorInterceptService} from './services/http-error-intercept.service';
 import {ImageService} from './services/image.service';
+import {OnAuthRouteActivator} from './shared/onAuthRouteActivator';
 
 
 @NgModule({
@@ -50,6 +51,7 @@ import {ImageService} from './services/image.service';
     AuthService,
     HttpErrorInterceptService,
     ImageService,
+    OnAuthRouteActivator,
     Title,
     {
       multi: true,

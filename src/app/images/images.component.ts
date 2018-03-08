@@ -10,8 +10,8 @@ import {IImageModel} from './image.model';
 export class ImagesComponent implements OnInit {
 
   public images: IImageModel[] = [];
-
   public showFreshnessDefinition: boolean;
+  private token: string;
 
   constructor(private imageService: ImageService) {
     this.getImagesList();
@@ -20,6 +20,7 @@ export class ImagesComponent implements OnInit {
   public ngOnInit() {
     localStorage.setItem('sorted', '');
     this.showFreshnessDefinition = false;
+    this.token = localStorage.getItem('token');
   }
 
   public mouseEnter() {
@@ -54,7 +55,6 @@ export class ImagesComponent implements OnInit {
     } else {
       localStorage.setItem('sorted', 'asc');
     }
-    console.log(sorted);
     this.images.sort((a, b) => (a.name > b.name) ? next : ((b.name > a.name) ? previous : 0) );
   }
 }

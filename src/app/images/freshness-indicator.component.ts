@@ -8,6 +8,7 @@ import { Component, Input, OnInit } from '@angular/core';
 export class FreshnessIndicatorComponent implements OnInit {
 
   @Input() public grade: string;
+  @Input() public tag: string;
   constructor() { }
 
   public ngOnInit() {

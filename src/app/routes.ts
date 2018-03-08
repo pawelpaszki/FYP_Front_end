@@ -6,13 +6,14 @@ import {ChartComponent} from './chart/chart.component';
 import {ContainersComponent} from './containers/containers.component';
 import {DockerHubSearchComponent} from './docker-hub-search/docker-hub-search.component';
 import {ImagesComponent} from './images/images.component';
+import {OnAuthRouteActivator} from './shared/onAuthRouteActivator';
 
 export const appRoutes: Routes = [
   { path: 'images', component: ImagesComponent },
   { path: 'about', component: AboutComponent },
-  { path: 'containers', component: ContainersComponent },
-  { path: 'search', component: DockerHubSearchComponent },
-  { path: 'account', component: AccountComponent },
+  { path: 'containers', component: ContainersComponent, canActivate: [OnAuthRouteActivator] },
+  { path: 'search', component: DockerHubSearchComponent, canActivate: [OnAuthRouteActivator] },
+  { path: 'account', component: AccountComponent, canActivate: [OnAuthRouteActivator] },
   { path: 'login', component: AuthComponent },
   { path: 'chart/:name', component: ChartComponent },
   { path: '**', redirectTo: 'about' },
