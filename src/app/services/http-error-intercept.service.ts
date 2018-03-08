@@ -1,6 +1,7 @@
 import { HttpErrorResponse, HttpEvent, HttpHandler,
   HttpInterceptor, HttpRequest, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import {Router} from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import 'rxjs/add/observable/throw';
 import 'rxjs/add/operator/catch';
@@ -11,7 +12,7 @@ import { Observable } from 'rxjs/Observable';
 @Injectable()
 export class HttpErrorInterceptService implements HttpInterceptor {
 
-  constructor(private toastr: ToastrService) { }
+  constructor(private router: Router, private toastr: ToastrService) { }
 
   public intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(req)
@@ -31,6 +32,8 @@ export class HttpErrorInterceptService implements HttpInterceptor {
               if (response.error.error === 'No token provided.' ||
                 response.error.error === 'Unable to authenticate token.') {
                 this.toastr.error('Unauthorized to perform this operation. Please sign in', 'Error');
+                this.router.navigate(['login']);
+                localStorage.setItem('token', '');
               } else {
                 this.toastr.warning(response.error.error, 'Error');
               }

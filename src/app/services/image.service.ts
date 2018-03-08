@@ -14,7 +14,7 @@ const httpOptions = {
 export class ImageService {
 
   constructor(private http: HttpClient, private toastr: ToastrService) {
-    this.getImages();
+
   }
 
   public getImages(): Observable<any[]> {

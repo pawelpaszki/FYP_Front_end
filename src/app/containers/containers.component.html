@@ -1,3 +1,57 @@
-<p>
-  containers works!
-</p>
+<div class="row bottomMarginSingleLine">
+  <div class="col-md-4">
+      <input type="text" placeholder="Search for containers" style="width: 100%; margin-top: 0.15em;">
+  </div>
+  <div class="col-md-1">
+    <button class="btn btn-default btn-sm btn-block" type="button"> Search </button>
+  </div>
+  <div class="col-md-4"></div>
+</div>
+<hr>
+<div class="row">
+  <div class="col-md-3">Image name <span class="glyphicon glyphicon-sort" aria-hidden=true></span></div>
+  <div class="col-md-2">Container name</div>
+  <div class="col-md-1">Container ID</div>
+  <div class="col-md-2">Status</div>
+  <div class="col-md-4"></div>
+</div>
+<div *ngFor="let containerCol of containerCollection" style="margin-bottom: 0.3em">
+  <hr>
+  <div class="row" style="margin-bottom: 0.3em">
+    <div class="col-md-3">{{containerCol.imageName}}</div>
+    <div class="col-md-9">
+      <a class="btn btn-primary btn-sm">
+        check vulnerable components
+      </a>
+      <a class="btn btn-primary btn-sm" style="margin-left: 1em;">
+        check for updates
+      </a>
+      <a class="btn btn-primary btn-sm" style="margin-left: 1em;">
+        run tests
+      </a>
+      <a class="btn btn-primary btn-sm" style="margin-left: 1em;">
+        check OS
+      </a>
+    </div>
+  </div>
+  <hr>
+  <div *ngFor="let container of containerCol.containers">
+    <div class="row" style="margin-bottom: 0.3em" >
+      <div class="col-md-3">
+        <a class="btn btn-success btn-sm" style="margin-left: 1em;">
+          <span class="glyphicon glyphicon-play"></span> start
+        </a>
+        <a class="btn btn-success btn-sm" style="margin-left: 1em;">
+          <span class="glyphicon glyphicon-stop"></span> stop
+        </a>
+        <a class="btn btn-danger btn-sm" style="margin-left: 1em;">
+          <span class="glyphicon glyphicon-remove"></span> remove
+        </a>
+      </div>
+      <div class="col-md-2">{{container.name}}</div>
+      <div class="col-md-1">{{container.id | slice:0:12}}</div>
+      <div class="col-md-2">{{container.status}}</div>
+      <div class="col-md-4"></div>
+    </div>
+  </div>
+</div>
