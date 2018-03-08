@@ -14,14 +14,11 @@ export class ImagesComponent implements OnInit {
   public showFreshnessDefinition: boolean;
 
   constructor(private imageService: ImageService) {
-    this.imageService.getImages().subscribe((resp) => {
-      console.log(resp);
-      this.images = (resp as any).imagesList;
-      console.log(this.images);
-    });
+    this.getImagesList();
   }
 
   public ngOnInit() {
+    localStorage.setItem('sorted', '');
     this.showFreshnessDefinition = false;
   }
 
@@ -35,10 +32,29 @@ export class ImagesComponent implements OnInit {
 
   public removeImage(id: string) {
     this.imageService.removeImage(id).subscribe(() => {
-      this.imageService.getImages().subscribe((resp) => {
-        this.images = (resp as any).imagesList;
-      });
+        this.getImagesList();
       },
     );
+  }
+
+  public getImagesList() {
+    this.imageService.getImages().subscribe((resp) => {
+      this.images = (resp as any).imagesList;
+    });
+  }
+
+  public sort() {
+    let previous: number = -1;
+    let next: number = 1;
+    const sorted: string = localStorage.getItem('sorted');
+    if (sorted === 'asc') {
+      localStorage.setItem('sorted', 'desc');
+      previous = 1;
+      next = -1;
+    } else {
+      localStorage.setItem('sorted', 'asc');
+    }
+    console.log(sorted);
+    this.images.sort((a, b) => (a.name > b.name) ? next : ((b.name > a.name) ? previous : 0) );
   }
 }

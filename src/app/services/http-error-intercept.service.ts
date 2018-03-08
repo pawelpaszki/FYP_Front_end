@@ -30,7 +30,7 @@ export class HttpErrorInterceptService implements HttpInterceptor {
             } else {
               if (response.error.error === 'No token provided.' ||
                 response.error.error === 'Unable to authenticate token.') {
-                this.toastr.error('Unauthorized to perform this operation', 'Error');
+                this.toastr.error('Unauthorized to perform this operation. Please sign in', 'Error');
               } else {
                 this.toastr.warning(response.error.error, 'Error');
               }
