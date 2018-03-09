@@ -4,6 +4,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { BrowserModule, Title } from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {ToastrModule} from 'ngx-toastr';
 import { AboutComponent } from './about/about.component';
 import { AccountComponent } from './account/account.component';
@@ -44,6 +45,7 @@ import {OnAuthRouteActivator} from './shared/onAuthRouteActivator';
     BrowserModule,
     FormsModule,
     HttpClientModule,
+    NgbModule.forRoot(),
     ReactiveFormsModule,
     RouterModule.forRoot(appRoutes, { useHash: true }),
     ToastrModule.forRoot(),
