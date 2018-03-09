@@ -38,13 +38,14 @@
   <div *ngFor="let container of containerCol.containers">
     <div class="row" style="margin-bottom: 0.3em" >
       <div class="col-md-3">
-        <a class="btn btn-success btn-sm" style="margin-left: 1em;">
+        <a [ngClass]="container.state === 'running' ? 'noEvents transparent btn btn-primary btn-sm' : 'btn btn-success btn-sm'"
+           (click)="startContainer(container.id)" style="margin-left: 1em;">
           <span class="glyphicon glyphicon-play"></span> start
         </a>
-        <a class="btn btn-success btn-sm" style="margin-left: 1em;">
+        <a [ngClass]="container.state !== 'running' ? 'noEvents transparent btn btn-primary btn-sm' : 'btn btn-warning btn-sm'" style="margin-left: 1em;">
           <span class="glyphicon glyphicon-stop"></span> stop
         </a>
-        <a class="btn btn-danger btn-sm" style="margin-left: 1em;">
+        <a [ngClass]="container.state === 'running' ? 'noEvents transparent btn btn-primary btn-sm' : 'btn btn-danger btn-sm'" style="margin-left: 1em;">
           <span class="glyphicon glyphicon-remove"></span> remove
         </a>
       </div>

@@ -20,6 +20,7 @@ export class ContainersComponent implements OnInit {
 
   public getContainersList() {
     this.containerService.getContainers().subscribe((resp) => {
+      this.containerCollection = [];
       console.log(resp);
       if ((resp as any).containers) {
         for (const container of (resp as any).containers) {
@@ -27,18 +28,26 @@ export class ContainersComponent implements OnInit {
           for (const containerCol of this.containerCollection) {
             if (containerCol.imageName === container.Image) {
               exists = true;
-              containerCol.containers.push(new IContainerModel(container.Id, container.Names[0], container.Status));
+              containerCol.containers.push(
+                new IContainerModel(container.Id, container.Names[0], container.Status, container.State));
               break;
             }
           }
           if (!exists) {
             this.containerCollection.push(new IContainerCollection(container.Image));
             this.containerCollection[this.containerCollection.length - 1].containers.push(
-              new IContainerModel(container.Id, container.Names[0], container.Status));
+              new IContainerModel(container.Id, container.Names[0], container.Status, container.State));
           }
         }
       }
     });
+  }
+
+  public startContainer(containerId: string) {
+    this.containerService.startContainer(containerId).subscribe(() => {
+        this.getContainersList();
+      },
+    );
   }
 
 }

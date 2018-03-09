@@ -5,10 +5,6 @@ import {ToastrService} from 'ngx-toastr';
 import {Observable} from 'rxjs/Observable';
 import {tap} from 'rxjs/operators';
 
-const httpOptions = {
-  headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
-};
-
 @Injectable()
 export class ContainerService {
 
@@ -30,6 +26,15 @@ export class ContainerService {
     return this.http.post<any[]>('http://localhost:3000/api/containers/create', {imageName}, {headers}).pipe(
       tap((_) =>
         this.toastr.success('Container created: ' + imageName, 'Success')),
+    );
+  }
+
+  public startContainer(containerId: string): Observable<any[]> {
+    const token: string = localStorage.getItem('token');
+    const headers = new HttpHeaders({ 'x-access-token': token});
+    return this.http.post<any[]>('http://localhost:3000/api/containers/start', {containerId}, {headers}).pipe(
+      tap((_) =>
+        this.toastr.success('Container started: ' + containerId, 'Success')),
     );
   }
 
