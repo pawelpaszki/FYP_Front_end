@@ -50,4 +50,11 @@ export class ContainersComponent implements OnInit {
     );
   }
 
+  public removeContainer(containerId: string) {
+    this.containerService.removeContainer(containerId).subscribe(() => {
+        this.getContainersList();
+      },
+    );
+  }
+
 }

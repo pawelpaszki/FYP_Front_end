@@ -38,4 +38,14 @@ export class ContainerService {
     );
   }
 
+  public removeContainer(containerId: string): Observable<any> {
+    const token: string = localStorage.getItem('token');
+    const authHttpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json', 'x-access-token': token }),
+    };
+    return this.http.delete<any>('http://localhost:3000/api/containers/' + containerId, authHttpOptions).pipe(
+      tap((_) =>
+        this.toastr.success('Container removed. id: ' + containerId, 'Success')),
+    );
+  }
 }
