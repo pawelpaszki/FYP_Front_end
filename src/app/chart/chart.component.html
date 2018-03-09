@@ -1,1 +1,28 @@
-<h3>{{imageName}}</h3>
+<button
+  *ngIf="token !==''" class="btn btn-default" (click)="goBack()"><span class="glyphicon glyphicon-circle-arrow-left"></span> go back
+</button>
+<h3 style="display: inline; margin-left: 1em;">{{imageName}}</h3>
+<br>
+<form class="form-inline">
+  <div class="form-group">
+    <div class="input-group">
+      <button class="btn btn-default btn-sm" (click)="f.toggle()" type="button">
+        <span class="glyphicon glyphicon-calendar"></span> From
+      </button>
+      <input placeholder="yyyy-mm-dd" style="margin: 1em;" [minDate]="minDate" [maxDate]="maxDate"
+             name="dp" [(ngModel)]="from" ngbDatepicker #f="ngbDatepicker" readonly>
+      <button class="btn btn-default btn-sm" (click)="t.toggle()" type="button">
+        <span class="glyphicon glyphicon-calendar"></span> To
+      </button>
+      <input placeholder="yyyy-mm-dd" style="margin: 1em;" [minDate]="from" [maxDate]="maxDate"
+             name="dp" [(ngModel)]="to" ngbDatepicker #t="ngbDatepicker">
+      <button class="btn btn-primary btn-sm" (click)="generateChart()" type="button" readonly>
+        generate vulnerability chart
+      </button>
+    </div>
+  </div>
+</form>
+<hr>
+<div *ngIf="!chartGenerated" class="centeredContent">
+  Please select a date range (from/ to) and press the "generate chart button" to generate the chart
+</div>

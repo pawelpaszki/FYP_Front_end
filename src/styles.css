@@ -198,3 +198,11 @@ button.toast-close-button {
 .transparent {
   opacity: 0;
 }
+
+.centeredContent {
+  position: absolute;
+  left: 50%;
+  top: 55%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
