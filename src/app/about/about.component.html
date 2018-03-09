@@ -1,3 +1,19 @@
-<p>
-  about works!
-</p>
+<div class="centeredContent">
+  <div>
+    <p>
+      The main purpose of this application is to display image freshness of a number of sample Docker images.
+      Those images are analyzed in daily automated tests to find and record vulnerable components in the source code.
+    </p>
+    <p>
+      As a non-registered user, you can see the image freshness of the images mentioned above in <strong>“Images”</strong> tab. Additionally,
+      a graphical representation of the number of vulnerable components based on their severity (low, medium or high) is possible
+      to generate over a selected range of time, when clicking <strong>“show vulnerability chart”</strong> button beside an image name.
+    </p>
+    <p>
+      Registered and authenticated users are allowed to access several additional features. Such users can pull a new image from
+      Docker Hub from <strong>"Search Docker Hub" </strong> and (assuming that it is a node.js image) and perform all of the steps required to gather the vulnerability information,
+      which involves lifecycle management of Docker containers, including creating, starting and extracting the source code of a container.
+      Once the source code is extracted, npm tests can be run. The list of vulnerable components and available updates can also be retrieved (<strong>"Containers"</strong> tab)
+    </p>
+  </div>
+</div>
