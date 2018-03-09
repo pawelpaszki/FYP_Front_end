@@ -16,7 +16,7 @@
       </button>
       <input placeholder="yyyy-mm-dd" style="margin: 1em;" [minDate]="from" [maxDate]="maxDate"
              name="dp" [(ngModel)]="to" ngbDatepicker #t="ngbDatepicker">
-      <button class="btn btn-primary btn-sm" (click)="generateChart()" type="button" readonly>
+      <button class="btn btn-primary btn-sm" (click)="generateChart()" [disabled]="!to || !from" type="button" readonly>
         generate vulnerability chart
       </button>
     </div>
