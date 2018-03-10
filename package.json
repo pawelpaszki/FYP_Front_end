@@ -1,7 +1,7 @@
 {
   "name": "docker-vulnerability-manager-client",
   "repository": "https://github.com/pawelpaszki/FYP_front_end",
-  "version": "0.16.0",
+  "version": "0.17.0",
   "license": "MIT",
   "author": "Pawel Paszki",
   "scripts": {
