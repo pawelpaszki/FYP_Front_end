@@ -11,6 +11,8 @@ import {IContainerModel} from './container.model';
 export class ContainersComponent implements OnInit {
 
   public containerCollection: IContainerCollection[] = [];
+  public searchTerm: string = '';
+
   constructor(private containerService: ContainerService) {
     this.getContainersList();
   }
@@ -88,6 +90,10 @@ export class ContainersComponent implements OnInit {
     }
     this.containerCollection.sort((a, b) => (a.imageName > b.imageName)
       ? next : ((b.imageName > a.imageName) ? previous : 0) );
+  }
+
+  public filterContainers(imageName: string) {
+    this.searchTerm = imageName;
   }
 
 }
