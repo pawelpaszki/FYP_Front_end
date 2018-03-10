@@ -50,6 +50,13 @@ export class ContainersComponent implements OnInit {
     );
   }
 
+  public stopContainer(containerId: string) {
+    this.containerService.stopContainer(containerId).subscribe(() => {
+        this.getContainersList();
+      },
+    );
+  }
+
   public removeContainer(containerId: string) {
     this.containerService.removeContainer(containerId).subscribe(() => {
         this.getContainersList();

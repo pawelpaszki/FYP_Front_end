@@ -38,6 +38,15 @@ export class ContainerService {
     );
   }
 
+  public stopContainer(containerId: string): Observable<any[]> {
+    const token: string = localStorage.getItem('token');
+    const headers = new HttpHeaders({ 'x-access-token': token});
+    return this.http.post<any[]>('http://localhost:3000/api/containers/stop', {containerId}, {headers}).pipe(
+      tap((_) =>
+        this.toastr.success('Container stopped: ' + containerId, 'Success')),
+    );
+  }
+
   public removeContainer(containerId: string): Observable<any> {
     const token: string = localStorage.getItem('token');
     const authHttpOptions = {
@@ -45,7 +54,7 @@ export class ContainerService {
     };
     return this.http.delete<any>('http://localhost:3000/api/containers/' + containerId, authHttpOptions).pipe(
       tap((_) =>
-        this.toastr.success('Container removed. id: ' + containerId, 'Success')),
+        this.toastr.success('Container removed: ' + containerId, 'Success')),
     );
   }
 }
