@@ -19,7 +19,7 @@ export class ImagesComponent implements OnInit {
   }
 
   public ngOnInit() {
-    localStorage.setItem('sorted', '');
+    localStorage.setItem('sortedImages', '');
     this.showFreshnessDefinition = false;
     this.token = localStorage.getItem('token');
   }
@@ -53,13 +53,13 @@ export class ImagesComponent implements OnInit {
   public sort() {
     let previous: number = -1;
     let next: number = 1;
-    const sorted: string = localStorage.getItem('sorted');
+    const sorted: string = localStorage.getItem('sortedImages');
     if (sorted === 'asc') {
-      localStorage.setItem('sorted', 'desc');
+      localStorage.setItem('sortedImages', 'desc');
       previous = 1;
       next = -1;
     } else {
-      localStorage.setItem('sorted', 'asc');
+      localStorage.setItem('sortedImages', 'asc');
     }
     this.images.sort((a, b) => (a.name > b.name) ? next : ((b.name > a.name) ? previous : 0) );
   }

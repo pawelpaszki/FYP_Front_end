@@ -16,6 +16,7 @@ export class ContainersComponent implements OnInit {
   }
 
   public ngOnInit() {
+    localStorage.setItem('sortedContainers', '');
   }
 
   public getContainersList() {
@@ -46,6 +47,7 @@ export class ContainersComponent implements OnInit {
   public startContainer(containerId: string) {
     this.containerService.startContainer(containerId).subscribe(() => {
         this.getContainersList();
+        this.sort(true);
       },
     );
   }
@@ -53,6 +55,7 @@ export class ContainersComponent implements OnInit {
   public stopContainer(containerId: string) {
     this.containerService.stopContainer(containerId).subscribe(() => {
         this.getContainersList();
+        this.sort(true);
       },
     );
   }
@@ -60,8 +63,31 @@ export class ContainersComponent implements OnInit {
   public removeContainer(containerId: string) {
     this.containerService.removeContainer(containerId).subscribe(() => {
         this.getContainersList();
+        this.sort(true);
       },
     );
+  }
+
+  public sort(noSortChange?: boolean) {
+    let previous: number = -1;
+    let next: number = 1;
+    const sorted: string = localStorage.getItem('sortedContainers');
+    if (!noSortChange) {
+      if (sorted === 'asc') {
+        localStorage.setItem('sortedContainers', 'desc');
+        previous = 1;
+        next = -1;
+      } else {
+        localStorage.setItem('sortedContainers', 'asc');
+      }
+    } else {
+      if (sorted === 'desc') {
+        previous = 1;
+        next = -1;
+      }
+    }
+    this.containerCollection.sort((a, b) => (a.imageName > b.imageName)
+      ? next : ((b.imageName > a.imageName) ? previous : 0) );
   }
 
 }
