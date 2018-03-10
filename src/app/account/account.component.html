@@ -1,3 +1,52 @@
-<p>
-  account works!
-</p>
+<div style="text-align:center" class="centeredContent">
+  <div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+      <div style="margin-top: 1em;">
+        <form [formGroup]="changePasswordForm" (ngSubmit)="authenticate(changePasswordForm.value)" autocomplete="off" noinvalid>
+          <div class="input-group input-group-addon form">
+            <div>
+              <div [ngClass]="{'error': invalidOldPassword() }">
+                <div style="float: left; margin-bottom: 1em">
+                  Old password:
+                </div>
+                <em *ngIf="invalidOldPassword() && changePasswordForm.controls.oldPassword.errors.required">Required</em>
+                <em *ngIf="invalidOldPassword() && changePasswordForm.controls.oldPassword.errors.minlength">Min 6 characters required</em>
+                <input type="text" id="oldPassword" formControlName="oldPassword" class="form-control" placeholder="Username">
+              </div>
+              <div [ngClass]="{'error': invalidNewPassword() }">
+                <hr>
+                <br style="display:block; margin-top:2px; line-height:4px;">
+                <div style="float: left; margin-bottom: 1em; margin-top:1em;">
+                  New password:
+                </div>
+                <em style="margin-top:1em;" *ngIf="invalidNewPassword() && changePasswordForm.controls.newPassword.errors.required">Required</em>
+                <em style="margin-top:1em;" *ngIf="invalidNewPassword() && changePasswordForm.controls.newPassword.errors.minlength">Min 6 characters required</em>
+                <input type="password" id="newPassword" formControlName="newPassword" class="form-control" placeholder="Password">
+                <hr>
+                <br style="display:block; margin-top:2px; line-height:4px;">
+              </div>
+              <div [ngClass]="{'error': invalidNewPasswordConfirm() }">
+                <hr>
+                <br style="display:block; margin-top:2px; line-height:4px;">
+                <div style="float: left; margin-bottom: 1em; margin-top:1em;">
+                  New password again:
+                </div>
+                <em style="margin-top:1em;" *ngIf="invalidNewPasswordConfirm() && changePasswordForm.controls.newPasswordConfirm.errors.required">Required</em>
+                <em style="margin-top:1em;" *ngIf="invalidNewPasswordConfirm() && changePasswordForm.controls.newPasswordConfirm.errors.minlength">Min 6 characters required</em>
+                <input type="password" id="newPasswordConfirm" formControlName="newPasswordConfirm" class="form-control" placeholder="Password">
+                <hr>
+                <br style="display:block; margin-top:2px; line-height:4px;">
+              </div>
+            </div>
+          </div>
+          <br style="display:block; margin-top:2px; line-height:4px;">
+          <div>
+            <button type="submit" class="btn btn-block btn-lg btn-inverse" >Change password</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="col-md-2"></div>
+  </div>
+</div>

@@ -30,8 +30,8 @@
                 <div style="float: left; margin-bottom: 1em; margin-top:1em;">
                   Password:
                 </div>
-                <em *ngIf="invalidPassword() && authForm.controls.password.errors.required">Required</em>
-                <em *ngIf="invalidPassword() && authForm.controls.password.errors.minlength">Min 6 characters required</em>
+                <em style="margin-top:1em;" *ngIf="invalidPassword() && authForm.controls.password.errors.required">Required</em>
+                <em style="margin-top:1em;" *ngIf="invalidPassword() && authForm.controls.password.errors.minlength">Min 6 characters required</em>
                 <input type="password" id="password" formControlName="password" class="form-control" placeholder="Password">
                 <hr>
                 <br style="display:block; margin-top:2px; line-height:4px;">
