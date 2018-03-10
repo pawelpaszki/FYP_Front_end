@@ -62,6 +62,7 @@ export class AuthComponent implements OnInit {
     return (!this.username.valid && !this.username.untouched) ||
       (this.authAttempted === true && this.username.value === '');
   }
+
   public invalidPassword() {
     return (!this.password.valid && !this.password.untouched) ||
       (this.authAttempted === true && this.password.value === '');
