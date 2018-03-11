@@ -1,7 +1,7 @@
 {
   "name": "docker-vulnerability-manager-client",
   "repository": "https://github.com/pawelpaszki/FYP_front_end",
-  "version": "0.18.0",
+  "version": "0.19.0",
   "license": "MIT",
   "author": "Pawel Paszki",
   "scripts": {
@@ -22,7 +22,9 @@
     "@angular/router": "^5.0.0",
     "@ng-bootstrap/ng-bootstrap": "^1.0.0",
     "angular2-toaster": "^5.0.0",
+    "chart.js": "^2.7.2",
     "core-js": "^2.4.1",
+    "ng2-charts": "^1.6.0",
     "ngx-toastr": "^8.3.0",
     "rxjs": "^5.5.2",
     "zone.js": "^0.8.14"

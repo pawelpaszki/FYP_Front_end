@@ -5,6 +5,7 @@ import { BrowserModule, Title } from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {ChartsModule} from 'ng2-charts';
 import {ToastrModule} from 'ngx-toastr';
 import { AboutComponent } from './about/about.component';
 import { AccountComponent } from './account/account.component';
@@ -43,6 +44,7 @@ import {OnAuthRouteActivator} from './shared/onAuthRouteActivator';
   imports: [
     BrowserAnimationsModule,
     BrowserModule,
+    ChartsModule,
     FormsModule,
     HttpClientModule,
     NgbModule.forRoot(),

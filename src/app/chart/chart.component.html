@@ -26,3 +26,68 @@
 <div *ngIf="!chartGenerated" class="centeredContent">
   Please select a date range (from/ to) and press the "generate chart button" to generate the chart
 </div>
+<div *ngIf="chartGenerated">
+  <div class="row">
+    <div class="col-2-md">
+    </div>
+    <div class="col-8-md">
+      <canvas baseChart width="600" height="300"
+              [datasets]="lineChartData"
+              [labels]="lineChartLabels"
+              [options]="lineChartOptions"
+              [colors]="lineChartColors"
+              [legend]="lineChartLegend"
+              [chartType]="lineChartType"
+              (chartHover)="chartHovered($event)"
+              (chartClick)="chartClicked($event)"></canvas>
+    </div>
+    <div class="col-2-md">
+    </div>
+  </div>
+</div>
+
+<div class="row" *ngIf="vulnerabilityEntries.length > 0" style="margin-left: 1em; margin-top: 1em;">
+  <div class="row">
+    <button class="btn btn-primary btn-sm" (click)="showVulnDetails()" type="button" readonly>
+      show vulnerability details
+    </button>
+  </div>
+</div>
+<div class="row" *ngIf="vulnerabilityDetailsVisible" style="margin-left: 1em;">
+  <div *ngFor="let vulnEntry of vulnerabilityEntries; let i = index" [attr.data-index]="i">
+    <div class="row">
+      <div (click)="updateVisibleEntries(i)" class="label label-primary">
+        <span [ngClass]="visibleEntries.indexOf(i) === -1 ? 'glyphicon glyphicon-plus' : 'glyphicon glyphicon-minus'">
+        </span>
+        {{vulnEntry.date | date:'dd/MM/yyyy' }}
+      </div>
+    </div>
+    <div class="row" *ngIf="visibleEntries.indexOf(i) !== -1">
+      <h5 *ngIf="vulnEntry.lowSeverity.length > 0">
+        Low Severity
+      </h5>
+      <div *ngFor="let low of vulnEntry.lowSeverity">
+        <strong>Dependency path:</strong> {{low.dependencyPath}}
+        <br><strong>Description:</strong> {{low.description}}
+        <br><strong>Remediation:</strong> {{low.remediation}}<br>
+      </div>
+      <h5 *ngIf="vulnEntry.mediumSeverity.length > 0">
+        Medium Severity
+      </h5>
+      <div *ngFor="let medium of vulnEntry.mediumSeverity">
+        <strong>Dependency path:</strong> {{medium.dependencyPath}}
+        <br><strong>Description:</strong> {{medium.description}}
+        <br><strong>Remediation:</strong> {{medium.remediation}}<br>
+      </div>
+      <h5 *ngIf="vulnEntry.highSeverity.length > 0">
+        High Severity
+      </h5>
+      <div *ngFor="let high of vulnEntry.highSeverity">
+        <strong>Dependency path:</strong> {{high.dependencyPath}}
+        <br><strong>Description:</strong> {{high.description}}
+        <br><strong>Remediation:</strong> {{high.remediation}}<br>
+      </div>
+    </div>
+  </div>
+</div>
+
