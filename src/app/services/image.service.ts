@@ -34,4 +34,11 @@ export class ImageService {
         this.toastr.success('Image removed. id: ' + id, 'Success')),
     );
   }
+
+  public getVulnerabilityCheckRecords(startDate: Date, endDate: Date, imageName: string): Observable<any[]> {
+    const name: string = imageName.replace('/', '%2F');
+    return this.http.post<any[]>(`http://localhost:3000/api/imageFreshness/${name}`, {startDate, endDate}).pipe(
+      tap(() => {}),
+    );
+  }
 }
