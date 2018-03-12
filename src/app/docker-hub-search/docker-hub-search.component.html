@@ -1,3 +1,21 @@
-<p>
-  docker-hub-search works!
-</p>
+<div class="row bottomMarginSingleLine">
+  <div class="col-md-4">
+    <input type="text" placeholder="Search DockerHub" style="width: 100%; margin-top: 0.15em;"
+           #searchTerm (keyup)="updateSearchTerm(searchTerm.value)">
+  </div>
+  <div class="col-md-1">
+    <button class="btn btn-default btn-sm" (click)="searchDockerHub()">Search</button>
+  </div>
+  <div class="col-md-7"></div>
+</div>
+<div *ngIf="searchResults.length > 0">
+  <div class="row" *ngFor="let result of searchResults" style="margin: 1em;">
+    {{result}} <i class="fa fa-download"></i>
+  </div>
+</div>
+<div *ngIf="!searchPressed" class="centeredContent">
+  Please enter name of the searched image and press search to display list of matching images
+</div>
+<div *ngIf="emptyResponseReceived" class="centeredContent">
+  {{emptyResponse}}
+</div>

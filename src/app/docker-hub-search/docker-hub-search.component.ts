@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {ImageService} from '../services/image.service';
 
 @Component({
   selector: 'app-docker-hub-search',
@@ -7,9 +8,27 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DockerHubSearchComponent implements OnInit {
 
-  constructor() { }
+  public searchPressed: boolean = false;
+  public searchTerm: string = '';
+  public searchResults: string[] = [];
+  public emptyResponse: string = 'No images found with provided search term';
+  public emptyResponseReceived: boolean = false;
+
+  constructor(private imageService: ImageService) { }
 
   public ngOnInit() {
+  }
+
+  public updateSearchTerm(searchTerm: string) {
+    this.searchTerm = searchTerm;
+  }
+
+  public searchDockerHub() {
+    this.imageService.searchDockerHub(this.searchTerm).subscribe((resp) => {
+      this.searchResults = (resp as any).images.sort();
+      this.searchPressed = true;
+      this.emptyResponseReceived = this.searchResults.length === 0;
+    });
   }
 
 }
