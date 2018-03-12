@@ -9,8 +9,10 @@
   <div class="col-md-7"></div>
 </div>
 <div *ngIf="searchResults.length > 0">
-  <div class="row" *ngFor="let result of searchResults" style="margin: 1em;">
-    {{result}} <i class="fa fa-download"></i>
+  <div class="row" *ngFor="let result of searchResults; let i = index" [attr.data-index]="i" style="margin: 1em;">
+    {{result}} <span *ngIf="pulledImages.indexOf(result) === -1" class="fa fa-download" (click)="pullImage(result)" style="margin-left: 0.5em;"></span>
+    <span *ngIf="pulledImages.indexOf(result) !== -1" class="fa fa-spinner fa-spin" style="margin-left: 0.5em;"></span>
+
   </div>
 </div>
 <div *ngIf="!searchPressed" class="centeredContent">

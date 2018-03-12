@@ -13,6 +13,7 @@ export class DockerHubSearchComponent implements OnInit {
   public searchResults: string[] = [];
   public emptyResponse: string = 'No images found with provided search term';
   public emptyResponseReceived: boolean = false;
+  public pulledImages: string[] = [];
 
   constructor(private imageService: ImageService) { }
 
@@ -29,6 +30,14 @@ export class DockerHubSearchComponent implements OnInit {
       this.searchPressed = true;
       this.emptyResponseReceived = this.searchResults.length === 0;
     });
+  }
+
+  public pullImage(imageName: string) {
+    this.pulledImages.push(imageName);
+    this.imageService.pullImage(imageName).subscribe(() => {
+      this.pulledImages.splice(this.pulledImages.indexOf(imageName), 1);
+      },
+    );
   }
 
 }

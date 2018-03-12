@@ -49,4 +49,13 @@ export class ImageService {
       tap(() => {}),
     );
   }
+
+  public pullImage(imageName: string): Observable<any[]> {
+    const token: string = localStorage.getItem('token');
+    const headers = new HttpHeaders({ 'x-access-token': token});
+    return this.http.post<any[]>('http://localhost:3000/api/images/pull', {imageName}, {headers}).pipe(
+      tap((_) =>
+        this.toastr.success(imageName + ' pulled successfully', 'Success')),
+    );
+  }
 }
