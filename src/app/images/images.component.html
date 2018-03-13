@@ -19,7 +19,7 @@
   <div class="col-md-2"><app-freshness-indicator [grade]="image.freshnessGrade" [tag]="image.tag"></app-freshness-indicator></div>
   <div class="col-md-4">
     <button
-      *ngIf="token !==''" class="btn btn-success btn-sm" (click)="createContainer(image.name)"><span class="glyphicon glyphicon-plus"></span> new container
+      *ngIf="token !==''" class="btn btn-success btn-sm" (click)="createContainer(image.name.concat(':' + image.tag))"><span class="glyphicon glyphicon-plus"></span> new container
     </button>
     <button [ngClass]="image.freshnessGrade ==='' || image.tag !== 'latest' ? 'noEvents transparent btn btn-primary btn-sm' : 'btn btn-primary btn-sm'"
             [routerLink]="['/chart', image.name]"><span class="glyphicon glyphicon-eye-open"></span> show vulnerability chart

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import {IImageModel} from '../images/image.model';
 import {ContainerService} from '../services/container.service';
+import {ImageService} from '../services/image.service';
 import {IContainerCollection} from './container-collection.model';
 import {IContainerModel} from './container.model';
 
@@ -12,8 +14,9 @@ export class ContainersComponent implements OnInit {
 
   public containerCollection: IContainerCollection[] = [];
   public searchTerm: string = '';
+  private imageList: IImageModel[] = [];
 
-  constructor(private containerService: ContainerService) {
+  constructor(private containerService: ContainerService, private imageService: ImageService) {
     this.getContainersList();
   }
 
@@ -21,28 +24,47 @@ export class ContainersComponent implements OnInit {
     localStorage.setItem('sortedContainers', '');
   }
 
+  public getImageTag(imageId: string): string {
+    for (const image of this.imageList) {
+      const id = imageId.substring(imageId.indexOf(':') + 1);
+      if (id === image.id) {
+        console.log('equals');
+        console.log(image.tag);
+        return image.tag;
+      }
+    }
+    return 'latest';
+  }
+
   public getContainersList() {
     this.containerService.getContainers().subscribe((resp) => {
-      this.containerCollection = [];
-      console.log(resp);
-      if ((resp as any).containers) {
-        for (const container of (resp as any).containers) {
-          let exists: boolean = false;
-          for (const containerCol of this.containerCollection) {
-            if (containerCol.imageName === container.Image) {
-              exists = true;
-              containerCol.containers.push(
-                new IContainerModel(container.Id, container.Names[0], container.Status, container.State));
-              break;
+      this.imageService.getImages().subscribe((response) => {
+        this.imageList = (response as any).imagesList;
+        this.containerCollection = [];
+        console.log(resp);
+        if ((resp as any).containers) {
+          for (const container of (resp as any).containers) {
+            const name = container.Image.toString().includes(':') ? container.Image : container.Image.concat(
+              ':' + this.getImageTag(container.ImageID));
+            let exists: boolean = false;
+            for (const containerCol of this.containerCollection) {
+              if (containerCol.imageName === name) {
+                exists = true;
+                containerCol.containers.push(
+                  new IContainerModel(
+                    container.Id, container.Names[0], container.Status, container.State, container.ImageID));
+                break;
+              }
+            }
+            if (!exists) {
+              this.containerCollection.push(new IContainerCollection(name));
+              this.containerCollection[this.containerCollection.length - 1].containers.push(
+                new IContainerModel(
+                  container.Id, container.Names[0], container.Status, container.State, container.ImageID));
             }
           }
-          if (!exists) {
-            this.containerCollection.push(new IContainerCollection(container.Image));
-            this.containerCollection[this.containerCollection.length - 1].containers.push(
-              new IContainerModel(container.Id, container.Names[0], container.Status, container.State));
-          }
         }
-      }
+      });
     });
   }
 
