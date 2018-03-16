@@ -12,17 +12,27 @@
   <div class="col-md-2">Status</div>
   <div class="col-md-4"></div>
 </div>
-<div *ngFor="let containerCol of containerCollection" style="margin-bottom: 0.3em">
+<div *ngFor="let containerCol of containerCollection" style="margin-bottom: 0.3em" [ngClass]="queriedContainers.indexOf(containerCol.imageName) !== -1 ? 'disabled' : ''">
   <div *ngIf="containerCol.imageName.includes(searchTerm)">
     <hr>
     <div class="row" style="margin-bottom: 0.3em">
       <div class="col-md-3">{{containerCol.imageName}}</div>
       <div class="col-md-9">
-        <a class="btn btn-primary btn-sm">
+        <span *ngIf="extractedSrcContainers.indexOf(containerCol.imageName) !== -1">
+          extracting source code <span class="fa fa-spinner fa-spin" style="margin-left: 0.5em;"></span>
+        </span>
+        <a class="btn btn-primary btn-sm" (click)="checkVulnComp(containerCol.imageName)"
+           *ngIf="vulnCompsChecked.indexOf(containerCol.imageName) === -1 && containerCol.vulnComponents.length === 0">
           check vulnerable components
         </a>
+        <span (click)="showResultArea(containerCol.imageName, 'vulnerable')" *ngIf="containerCol.vulnComponents.length !== 0">
+          Vulnerable components <span [ngClass]="containerCol.resultDisplayed === 'vulnerable' ? 'glyphicon glyphicon-eye-close' : 'glyphicon glyphicon-eye-open'"></span>
+        </span>
+        <span *ngIf="vulnCompsChecked.indexOf(containerCol.imageName) !== -1">
+          checking for vulnerable components <span class="fa fa-spinner fa-spin" style="margin-left: 0.5em;"></span>
+        </span>
         <a class="btn btn-primary btn-sm" style="margin-left: 1em;">
-          check for updates
+          get installed packages
         </a>
         <a class="btn btn-primary btn-sm" style="margin-left: 1em;">
           run tests
@@ -31,6 +41,26 @@
           check OS
         </a>
       </div>
+    </div>
+    <div class="row" *ngIf="visibleResponseAreas.indexOf(containerCol.imageName) !== -1">
+      <div class="col-md-3"></div>
+      <div class="col-md-6" style="height: auto; background: lightblue; border: black 1px solid">
+        <div *ngIf="containerCol.resultDisplayed === 'vulnerable'">
+          <h4>Vulnerable components:</h4>
+          <p *ngFor="let vulnerability of containerCol.vulnComponents">
+            {{vulnerability}}
+          </p>
+          <h4>Updates:</h4>
+          <p *ngFor="let update of containerCol.updates">
+            {{update}}
+          </p>
+        </div>
+
+        <div *ngIf="containerCol.resultDisplayed === 'packages'" >abcde<br>packages</div>
+        <div *ngIf="containerCol.resultDisplayed === 'tests'" >abcde<br>{{containerCol.testResults}}</div>
+        <div *ngIf="containerCol.resultDisplayed === 'os'" >abcde<br>{{containerCol.osDetails}}</div>
+      </div>
+      <div class="col-md-3"></div>
     </div>
     <hr>
     <div *ngFor="let container of containerCol.containers">
