@@ -24,7 +24,6 @@ export class ContainersComponent implements OnInit {
   public packagesChecked: string[] = [];
   private imageList: IImageModel[] = [];
 
-
   constructor(private containerService: ContainerService, private imageService: ImageService,
               private srcHandlingService: SrcHandlingService) {
     this.getContainersList();
@@ -35,7 +34,6 @@ export class ContainersComponent implements OnInit {
   }
 
   public showResultArea(imageName: string, option: string) {
-
     const index = this.containerCollection.findIndex((x) => x.imageName === imageName);
     if (this.containerCollection[index].resultDisplayed === option) {
       this.containerCollection[index].resultDisplayed = '';
@@ -44,6 +42,31 @@ export class ContainersComponent implements OnInit {
       this.containerCollection[index].resultDisplayed = option;
       this.visibleResponseAreas.push(imageName);
     }
+  }
+
+  public runTests(imageName: string) {
+    this.queriedContainers.push(imageName);
+    this.testsRun.push(imageName);
+    const that = this;
+    async function extractIfNeeded(that) {
+      await that.extractSourceCode(imageName);
+      that.srcHandlingService.runNpmTests(imageName).subscribe((resp) => {
+        const index = that.containerCollection.findIndex((x) => x.imageName === imageName);
+        that.containerCollection[index].testResults = (resp as any).testResults;
+        const testKey: string = imageName + 'tests';
+        let testString: string = '';
+        for (const test of (resp as any).testResults) {
+          testString += test + ',';
+        }
+        testString = testString.substring(0, testString.length - 1);
+        if (imageName.indexOf('latest') === -1) {
+          localStorage.setItem(testKey, testString);
+        }
+        that.queriedContainers.splice(that.queriedContainers.indexOf(imageName), 1);
+        that.testsRun.splice(that.testsRun.indexOf(imageName), 1);
+      });
+    }
+    extractIfNeeded(that);
   }
 
   public checkVulnComp(imageName: string) {
@@ -82,8 +105,10 @@ export class ContainersComponent implements OnInit {
         }
         vulnerableComponents = Array.from(new Set(vulnerableComponents)).sort();
         that.containerCollection[index].vulnComponents = vulnerableComponents;
-        localStorage.setItem(updateKey, updateString);
-        localStorage.setItem(vulnKey, vulnerableString);
+        if (imageName.indexOf('latest') === -1) {
+          localStorage.setItem(updateKey, updateString);
+          localStorage.setItem(vulnKey, vulnerableString);
+        }
         that.queriedContainers.splice(that.queriedContainers.indexOf(imageName), 1);
         that.vulnCompsChecked.splice(that.vulnCompsChecked.indexOf(imageName), 1);
       });
@@ -112,7 +137,7 @@ export class ContainersComponent implements OnInit {
                   imageName, this.containerCollection[index].containers[0].id).subscribe(() => {
                   this.extractedSrcContainers.splice(this.extractedSrcContainers.indexOf(imageName), 1);
                   this.containerCollection[index].srcExtracted = true;
-                  resolve('done');
+                  resolve('');
                 });
               },
             );
@@ -180,6 +205,11 @@ export class ContainersComponent implements OnInit {
                 if (localStorage.getItem(updateKey) !== null) {
                   this.containerCollection[this.containerCollection.length - 1].updates =
                     localStorage.getItem(updateKey).split(',');
+                }
+                const testKey: string = name + 'tests';
+                if (localStorage.getItem(testKey) !== null) {
+                  this.containerCollection[this.containerCollection.length - 1].testResults =
+                    localStorage.getItem(testKey).split(',');
                 }
               }
             }

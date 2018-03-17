@@ -4,6 +4,8 @@ import {RequestOptions} from '@angular/http';
 import {ToastrService} from 'ngx-toastr';
 import {Observable} from 'rxjs/Observable';
 import {tap} from 'rxjs/operators';
+import {IContainerCollection} from '../containers/container-collection.model';
+import {IImageModel} from '../images/image.model';
 
 @Injectable()
 export class ContainerService {
