@@ -1,23 +1,22 @@
-<div class="row bottomMarginSingleLine">
+<div class="row" style="margin-bottom: 1em;">
   <div class="col-md-4">
     <input type="text" placeholder="Search for containers" #imageName (keyup)="filterContainers(imageName.value)" style="width: 100%; margin-top: 0.15em;">
   </div>
   <div class="col-md-8"></div>
 </div>
-<hr>
-<div class="row">
-  <div class="col-md-3">Image name <span (click)="sort()" class="glyphicon glyphicon-sort" aria-hidden=true></span></div>
+<div class="row" style="background: #424242; color: white; line-height: 3em; margin-bottom: 1em">
+  <div class="col-md-4">Image name <span (click)="sort()" class="glyphicon glyphicon-sort" aria-hidden=true></span></div>
   <div class="col-md-2">Container name</div>
   <div class="col-md-1">Container ID</div>
   <div class="col-md-2">Status</div>
-  <div class="col-md-4"></div>
+  <div class="col-md-3"></div>
 </div>
 <div *ngFor="let containerCol of containerCollection" style="margin-bottom: 0.3em" [ngClass]="queriedContainers.indexOf(containerCol.imageName) !== -1 ? 'disabled' : ''">
   <div *ngIf="containerCol.imageName.includes(searchTerm)">
     <hr>
     <div class="row" style="margin-bottom: 0.3em">
-      <div class="col-md-3">{{containerCol.imageName}}</div>
-      <div class="col-md-9">
+      <div class="col-md-4">{{containerCol.imageName}}</div>
+      <div class="col-md-8">
         <span *ngIf="extractedSrcContainers.indexOf(containerCol.imageName) !== -1">
           extracting source code <span class="fa fa-spinner fa-spin" style="margin-left: 0.5em;"></span>
         </span>
@@ -57,8 +56,8 @@
       </div>
     </div>
     <div class="row" *ngIf="visibleResponseAreas.indexOf(containerCol.imageName) !== -1">
-      <div class="col-md-3"></div>
-      <div class="col-md-6" style="height: auto;">
+      <div class="col-md-4"></div>
+      <div class="col-md-5" style="height: auto;">
         <div *ngIf="containerCol.resultDisplayed === 'vulnerable'">
           <h4>Vulnerable components:</h4>
           <p *ngFor="let vulnerability of containerCol.vulnComponents">
@@ -90,7 +89,7 @@
     <hr>
     <div *ngFor="let container of containerCol.containers">
       <div class="row" style="margin-bottom: 0.3em" >
-        <div class="col-md-3">
+        <div class="col-md-4">
           <a [ngClass]="container.state === 'running' ? 'noEvents transparent btn btn-primary btn-sm' : 'btn btn-success btn-sm'"
              (click)="startContainer(container.id)" style="margin-left: 1em;">
             <span class="glyphicon glyphicon-play"></span> start
@@ -107,7 +106,7 @@
         <div class="col-md-2">{{container.name}}</div>
         <div class="col-md-1">{{container.id | slice:0:12}}</div>
         <div class="col-md-2">{{container.status}}</div>
-        <div class="col-md-4"></div>
+        <div class="col-md-3"></div>
       </div>
     </div>
   </div>

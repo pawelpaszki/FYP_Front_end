@@ -10,6 +10,8 @@ import {IImageModel} from './image.model';
 })
 export class ImagesComponent implements OnInit {
 
+  public hoveredImageDivId: string[] = [];
+  public hoveredImageDivTag: string[] = [];
   public images: IImageModel[] = [];
   public showFreshnessDefinition: boolean;
   private token: string;
@@ -30,6 +32,16 @@ export class ImagesComponent implements OnInit {
 
   public mouseLeave() {
     this.showFreshnessDefinition = false;
+  }
+
+  public mouseEnterDiv(id: string, tag: string) {
+    this.hoveredImageDivId.push(id);
+    this.hoveredImageDivTag.push(tag);
+  }
+
+  public mouseLeaveDiv(id: string, tag: string) {
+    this.hoveredImageDivId.splice(this.hoveredImageDivId.indexOf(id), 1);
+    this.hoveredImageDivTag.splice(this.hoveredImageDivTag.indexOf(tag), 1);
   }
 
   public removeImage(id: string) {
