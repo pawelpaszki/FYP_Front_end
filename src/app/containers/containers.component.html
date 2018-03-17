@@ -44,9 +44,16 @@
         <span *ngIf="testsRun.indexOf(containerCol.imageName) !== -1">
           executing tests <span class="fa fa-spinner fa-spin" style="margin-left: 0.5em;"></span>
         </span>
-        <a class="btn btn-primary btn-sm" style="margin-left: 1em;">
+        <a class="btn btn-primary btn-sm" (click)="checkOS(containerCol.imageName)" style="margin-left: 1em;"
+           *ngIf="osChecked.indexOf(containerCol.imageName) === -1 && containerCol.osDetails.length === 0">
           check OS
         </a>
+        <span (click)="showResultArea(containerCol.imageName, 'os')" *ngIf="containerCol.osDetails.length !== 0" style="margin-left: 1em;">
+          OS details <span [ngClass]="containerCol.resultDisplayed === 'os' ? 'glyphicon glyphicon-eye-close' : 'glyphicon glyphicon-eye-open'"></span>
+        </span>
+        <span *ngIf="osChecked.indexOf(containerCol.imageName) !== -1">
+          checking OS details <span class="fa fa-spinner fa-spin" style="margin-left: 0.5em;"></span>
+        </span>
       </div>
     </div>
     <div class="row" *ngIf="visibleResponseAreas.indexOf(containerCol.imageName) !== -1">
@@ -71,7 +78,12 @@
             {{test}}
           </p>
         </div>
-        <div *ngIf="containerCol.resultDisplayed === 'os'" >abcde<br>{{containerCol.osDetails}}</div>
+        <div *ngIf="containerCol.resultDisplayed === 'os'" >
+          <h4>OS details:</h4>
+          <p>
+            {{containerCol.osDetails}}
+          </p>
+        </div>
       </div>
       <div class="col-md-3"></div>
     </div>

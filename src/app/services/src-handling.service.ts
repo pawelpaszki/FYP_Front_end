@@ -57,5 +57,14 @@ export class SrcHandlingService {
     );
   }
 
+  public checkOS(imageName: string) {
+    const token: string = localStorage.getItem('token');
+    const headers = new HttpHeaders({ 'x-access-token': token});
+    return this.http.post<any[]>('http://localhost:3000/api/misc/checkOS',
+      {imageName}, {headers}).pipe(
+      tap((_) =>
+        this.toastr.success('OS information retrieved for: ' + imageName, 'Success')),
+    );
+  }
 
 }
