@@ -44,6 +44,28 @@ export class ContainersComponent implements OnInit {
     }
   }
 
+  public checkOS(imageName: string) {
+    this.queriedContainers.push(imageName);
+    this.osChecked.push(imageName);
+    const that = this;
+    async function extractIfNeeded(that) {
+      await that.extractSourceCode(imageName);
+      that.srcHandlingService.checkOS(imageName).subscribe((resp) => {
+        const index = that.containerCollection.findIndex((x) => x.imageName === imageName);
+        const osString: string = (resp as any).name + ':' + (resp as any).version +
+          ' (latest: ' + (resp as any).latest + ')';
+        that.containerCollection[index].osDetails = osString;
+        const osKey: string = imageName + 'os';
+        if (imageName.indexOf('latest') === -1) {
+          localStorage.setItem(osKey, osString);
+        }
+        that.queriedContainers.splice(that.queriedContainers.indexOf(imageName), 1);
+        that.osChecked.splice(that.testsRun.indexOf(imageName), 1);
+      });
+    }
+    extractIfNeeded(that);
+  }
+
   public runTests(imageName: string) {
     this.queriedContainers.push(imageName);
     this.testsRun.push(imageName);
@@ -210,6 +232,11 @@ export class ContainersComponent implements OnInit {
                 if (localStorage.getItem(testKey) !== null) {
                   this.containerCollection[this.containerCollection.length - 1].testResults =
                     localStorage.getItem(testKey).split(',');
+                }
+                const osKey: string = name + 'os';
+                if (localStorage.getItem(osKey) !== null) {
+                  this.containerCollection[this.containerCollection.length - 1].osDetails =
+                    localStorage.getItem(osKey);
                 }
               }
             }
