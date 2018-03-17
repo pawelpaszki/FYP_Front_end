@@ -47,5 +47,15 @@ export class SrcHandlingService {
     );
   }
 
+  public runNpmTests(imageName: string) {
+    const token: string = localStorage.getItem('token');
+    const headers = new HttpHeaders({ 'x-access-token': token});
+    return this.http.post<any[]>('http://localhost:3000/api/npm/tests',
+      {imageName}, {headers}).pipe(
+      tap((_) =>
+        this.toastr.success('Npm tests finished for: ' + imageName, 'Success')),
+    );
+  }
+
 
 }

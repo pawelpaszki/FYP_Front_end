@@ -34,9 +34,16 @@
         <a class="btn btn-primary btn-sm" style="margin-left: 1em;">
           get installed packages
         </a>
-        <a class="btn btn-primary btn-sm" style="margin-left: 1em;">
+        <a class="btn btn-primary btn-sm" (click)="runTests(containerCol.imageName)" style="margin-left: 1em;"
+           *ngIf="testsRun.indexOf(containerCol.imageName) === -1 && containerCol.testResults.length === 0">
           run tests
         </a>
+        <span (click)="showResultArea(containerCol.imageName, 'tests')" *ngIf="containerCol.testResults.length !== 0" style="margin-left: 1em;">
+          Test results <span [ngClass]="containerCol.resultDisplayed === 'tests' ? 'glyphicon glyphicon-eye-close' : 'glyphicon glyphicon-eye-open'"></span>
+        </span>
+        <span *ngIf="testsRun.indexOf(containerCol.imageName) !== -1">
+          executing tests <span class="fa fa-spinner fa-spin" style="margin-left: 0.5em;"></span>
+        </span>
         <a class="btn btn-primary btn-sm" style="margin-left: 1em;">
           check OS
         </a>
@@ -44,7 +51,7 @@
     </div>
     <div class="row" *ngIf="visibleResponseAreas.indexOf(containerCol.imageName) !== -1">
       <div class="col-md-3"></div>
-      <div class="col-md-6" style="height: auto; background: lightblue; border: black 1px solid">
+      <div class="col-md-6" style="height: auto;">
         <div *ngIf="containerCol.resultDisplayed === 'vulnerable'">
           <h4>Vulnerable components:</h4>
           <p *ngFor="let vulnerability of containerCol.vulnComponents">
@@ -55,9 +62,15 @@
             {{update}}
           </p>
         </div>
+        <div *ngIf="containerCol.resultDisplayed === 'packages'" >
 
-        <div *ngIf="containerCol.resultDisplayed === 'packages'" >abcde<br>packages</div>
-        <div *ngIf="containerCol.resultDisplayed === 'tests'" >abcde<br>{{containerCol.testResults}}</div>
+        </div>
+        <div *ngIf="containerCol.resultDisplayed === 'tests'" >
+          <h4>Test results:</h4>
+          <p *ngFor="let test of containerCol.testResults">
+            {{test}}
+          </p>
+        </div>
         <div *ngIf="containerCol.resultDisplayed === 'os'" >abcde<br>{{containerCol.osDetails}}</div>
       </div>
       <div class="col-md-3"></div>
