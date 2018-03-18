@@ -109,17 +109,21 @@ export class ContainersComponent implements OnInit {
         updateString = updateString.substring(0, updateString.length - 1);
         let vulnerableString: string = '';
         let vulnerableComponents: string[] = [];
+        let vulnEntry: string = '';
         for (const lowVuln of (resp as any).vulnerabilityCheckRecord.lowSeverity) {
-          vulnerableComponents.push(lowVuln.name);
-          vulnerableString += lowVuln.name + ',';
+          vulnEntry = lowVuln.name + ' (dependency path: ' + lowVuln.dependencyPath + '),';
+          vulnerableComponents.push(vulnEntry);
+          vulnerableString += vulnEntry;
         }
         for (const mediumVuln of (resp as any).vulnerabilityCheckRecord.mediumSeverity) {
-          vulnerableComponents.push(mediumVuln.name);
-          vulnerableString += mediumVuln.name + ',';
+          vulnEntry = mediumVuln.name + ' (dependency path: ' + mediumVuln.dependencyPath + '),';
+          vulnerableComponents.push(vulnEntry);
+          vulnerableString += vulnEntry;
         }
         for (const highVuln of (resp as any).vulnerabilityCheckRecord.highSeverity) {
-          vulnerableComponents.push(highVuln.name);
-          vulnerableString += highVuln.name + ',';
+          vulnEntry = highVuln.name + ' (dependency path: ' + highVuln.dependencyPath + '),';
+          vulnerableComponents.push(vulnEntry);
+          vulnerableString += vulnEntry;
         }
         vulnerableString = vulnerableString.substring(0, vulnerableString.length - 1);
         if (vulnerableString.length === 0) {

@@ -1,112 +1,114 @@
-<div class="row" style="margin-bottom: 1em;">
+<div class="row" style="padding-bottom: 1.5em; z-index: 1; padding-top:1.5em; position: fixed; top: 3.5em; width: 100%; background: white">
   <div class="col-md-4">
     <input type="text" placeholder="Search for containers" #imageName (keyup)="filterContainers(imageName.value)" style="width: 100%; margin-top: 0.15em;">
   </div>
   <div class="col-md-8"></div>
 </div>
-<div class="row" style="background: #424242; color: white; line-height: 3em; margin-bottom: 1em">
+<div class="row" style="background: #424242; color: white; line-height: 3em; z-index: 2; position: fixed; top: 8em; width: 100%;">
   <div class="col-md-4">Image name <span (click)="sort()" class="glyphicon glyphicon-sort" aria-hidden=true></span></div>
   <div class="col-md-2">Container name</div>
   <div class="col-md-1">Container ID</div>
   <div class="col-md-2">Status</div>
   <div class="col-md-3"></div>
 </div>
-<div *ngFor="let containerCol of containerCollection" style="margin-bottom: 0.3em" [ngClass]="queriedContainers.indexOf(containerCol.imageName) !== -1 ? 'disabled' : ''">
-  <div *ngIf="containerCol.imageName.includes(searchTerm)">
-    <hr>
-    <div class="row" style="margin-bottom: 0.3em">
-      <div class="col-md-4">{{containerCol.imageName}}</div>
-      <div class="col-md-8">
+<div style="margin-top: 11em;">
+  <div *ngFor="let containerCol of containerCollection" style="margin-bottom: 0.3em;" [ngClass]="queriedContainers.indexOf(containerCol.imageName) !== -1 ? 'disabled' : ''">
+    <div *ngIf="containerCol.imageName.includes(searchTerm)">
+      <hr>
+      <div class="row" style="margin-bottom: 0.3em; background: lightgray; line-height: 2.5em">
+        <div class="col-md-4" style="margin-top: 0.2em;">{{containerCol.imageName}}</div>
+        <div class="col-md-8">
         <span *ngIf="extractedSrcContainers.indexOf(containerCol.imageName) !== -1">
           extracting source code <span class="fa fa-spinner fa-spin" style="margin-left: 0.5em;"></span>
         </span>
-        <a class="btn btn-primary btn-sm" (click)="checkVulnComp(containerCol.imageName)"
-           *ngIf="vulnCompsChecked.indexOf(containerCol.imageName) === -1 && containerCol.vulnComponents.length === 0">
-          check vulnerable components
-        </a>
-        <span (click)="showResultArea(containerCol.imageName, 'vulnerable')" *ngIf="containerCol.vulnComponents.length !== 0">
+          <a class="btn btn-primary btn-sm" (click)="checkVulnComp(containerCol.imageName)"
+             *ngIf="vulnCompsChecked.indexOf(containerCol.imageName) === -1 && containerCol.vulnComponents.length === 0">
+            check vulnerable components
+          </a>
+          <span (click)="showResultArea(containerCol.imageName, 'vulnerable')" *ngIf="containerCol.vulnComponents.length !== 0">
           Vulnerable components <span [ngClass]="containerCol.resultDisplayed === 'vulnerable' ? 'glyphicon glyphicon-eye-close' : 'glyphicon glyphicon-eye-open'"></span>
         </span>
-        <span *ngIf="vulnCompsChecked.indexOf(containerCol.imageName) !== -1">
+          <span *ngIf="vulnCompsChecked.indexOf(containerCol.imageName) !== -1">
           checking for vulnerable components <span class="fa fa-spinner fa-spin" style="margin-left: 0.5em;"></span>
         </span>
-        <a class="btn btn-primary btn-sm" style="margin-left: 1em;">
-          get installed packages
-        </a>
-        <a class="btn btn-primary btn-sm" (click)="runTests(containerCol.imageName)" style="margin-left: 1em;"
-           *ngIf="testsRun.indexOf(containerCol.imageName) === -1 && containerCol.testResults.length === 0">
-          run tests
-        </a>
-        <span (click)="showResultArea(containerCol.imageName, 'tests')" *ngIf="containerCol.testResults.length !== 0" style="margin-left: 1em;">
+          <a class="btn btn-primary btn-sm" style="margin-left: 1em;">
+            get installed packages
+          </a>
+          <a class="btn btn-primary btn-sm" (click)="runTests(containerCol.imageName)" style="margin-left: 1em;"
+             *ngIf="testsRun.indexOf(containerCol.imageName) === -1 && containerCol.testResults.length === 0">
+            run tests
+          </a>
+          <span (click)="showResultArea(containerCol.imageName, 'tests')" *ngIf="containerCol.testResults.length !== 0" style="margin-left: 1em;">
           Test results <span [ngClass]="containerCol.resultDisplayed === 'tests' ? 'glyphicon glyphicon-eye-close' : 'glyphicon glyphicon-eye-open'"></span>
         </span>
-        <span *ngIf="testsRun.indexOf(containerCol.imageName) !== -1">
-          executing tests <span class="fa fa-spinner fa-spin" style="margin-left: 0.5em;"></span>
+          <span *ngIf="testsRun.indexOf(containerCol.imageName) !== -1">
+          executing tests <span class="fa fa-spinner fa-spin" style="margin-left: 1em;"></span>
         </span>
-        <a class="btn btn-primary btn-sm" (click)="checkOS(containerCol.imageName)" style="margin-left: 1em;"
-           *ngIf="osChecked.indexOf(containerCol.imageName) === -1 && containerCol.osDetails.length === 0">
-          check OS
-        </a>
-        <span (click)="showResultArea(containerCol.imageName, 'os')" *ngIf="containerCol.osDetails.length !== 0" style="margin-left: 1em;">
+          <a class="btn btn-primary btn-sm" (click)="checkOS(containerCol.imageName)" style="margin-left: 1em;"
+             *ngIf="osChecked.indexOf(containerCol.imageName) === -1 && containerCol.osDetails.length === 0">
+            check OS
+          </a>
+          <span (click)="showResultArea(containerCol.imageName, 'os')" *ngIf="containerCol.osDetails.length !== 0" style="margin-left: 1em;">
           OS details <span [ngClass]="containerCol.resultDisplayed === 'os' ? 'glyphicon glyphicon-eye-close' : 'glyphicon glyphicon-eye-open'"></span>
         </span>
-        <span *ngIf="osChecked.indexOf(containerCol.imageName) !== -1">
+          <span *ngIf="osChecked.indexOf(containerCol.imageName) !== -1">
           checking OS details <span class="fa fa-spinner fa-spin" style="margin-left: 0.5em;"></span>
         </span>
-      </div>
-    </div>
-    <div class="row" *ngIf="visibleResponseAreas.indexOf(containerCol.imageName) !== -1">
-      <div class="col-md-4"></div>
-      <div class="col-md-5" style="height: auto;">
-        <div *ngIf="containerCol.resultDisplayed === 'vulnerable'">
-          <h4>Vulnerable components:</h4>
-          <p *ngFor="let vulnerability of containerCol.vulnComponents">
-            {{vulnerability}}
-          </p>
-          <h4>Updates:</h4>
-          <p *ngFor="let update of containerCol.updates">
-            {{update}}
-          </p>
-        </div>
-        <div *ngIf="containerCol.resultDisplayed === 'packages'" >
-
-        </div>
-        <div *ngIf="containerCol.resultDisplayed === 'tests'" >
-          <h4>Test results:</h4>
-          <p *ngFor="let test of containerCol.testResults">
-            {{test}}
-          </p>
-        </div>
-        <div *ngIf="containerCol.resultDisplayed === 'os'" >
-          <h4>OS details:</h4>
-          <p>
-            {{containerCol.osDetails}}
-          </p>
         </div>
       </div>
-      <div class="col-md-3"></div>
-    </div>
-    <hr>
-    <div *ngFor="let container of containerCol.containers">
-      <div class="row" style="margin-bottom: 0.3em" >
-        <div class="col-md-4">
-          <a [ngClass]="container.state === 'running' ? 'noEvents transparent btn btn-primary btn-sm' : 'btn btn-success btn-sm'"
-             (click)="startContainer(container.id)" style="margin-left: 1em;">
-            <span class="glyphicon glyphicon-play"></span> start
-          </a>
-          <a [ngClass]="container.state !== 'running' ? 'noEvents transparent btn btn-primary btn-sm' : 'btn btn-warning btn-sm'"
-             (click)="stopContainer(container.id)" style="margin-left: 1em;">
-            <span class="glyphicon glyphicon-stop"></span> stop
-          </a>
-          <a [ngClass]="container.state === 'running' ? 'noEvents transparent btn btn-primary btn-sm' : 'btn btn-danger btn-sm'"
-             (click)="removeContainer(container.id)" style="margin-left: 1em;">
-            <span class="glyphicon glyphicon-remove"></span> remove
-          </a>
-        </div>
-        <div class="col-md-2">{{container.name}}</div>
-        <div class="col-md-1">{{container.id | slice:0:12}}</div>
-        <div class="col-md-2">{{container.status}}</div>
+      <div class="row" *ngIf="visibleResponseAreas.indexOf(containerCol.imageName) !== -1">
         <div class="col-md-3"></div>
+        <div class="col-md-6" style="height: auto;">
+          <div *ngIf="containerCol.resultDisplayed === 'vulnerable'">
+            <h4>Vulnerable components:</h4>
+            <p *ngFor="let vulnerability of containerCol.vulnComponents">
+              {{vulnerability}}
+            </p>
+            <h4>Updates:</h4>
+            <p *ngFor="let update of containerCol.updates">
+              {{update}}
+            </p>
+          </div>
+          <div *ngIf="containerCol.resultDisplayed === 'packages'" >
+
+          </div>
+          <div *ngIf="containerCol.resultDisplayed === 'tests'" >
+            <h4>Test results:</h4>
+            <p *ngFor="let test of containerCol.testResults">
+              {{test}}
+            </p>
+          </div>
+          <div *ngIf="containerCol.resultDisplayed === 'os'" >
+            <h4>OS details:</h4>
+            <p>
+              {{containerCol.osDetails}}
+            </p>
+          </div>
+        </div>
+        <div class="col-md-3"></div>
+      </div>
+      <hr>
+      <div *ngFor="let container of containerCol.containers">
+        <div class="row" style="margin-bottom: 0.3em" >
+          <div class="col-md-4">
+            <a [ngClass]="container.state === 'running' ? 'noEvents transparent btn btn-primary btn-sm' : 'btn btn-success btn-sm'"
+               (click)="startContainer(container.id)" style="margin-left: 1em;">
+              <span class="glyphicon glyphicon-play"></span> start
+            </a>
+            <a [ngClass]="container.state !== 'running' ? 'noEvents transparent btn btn-primary btn-sm' : 'btn btn-warning btn-sm'"
+               (click)="stopContainer(container.id)" style="margin-left: 1em;">
+              <span class="glyphicon glyphicon-stop"></span> stop
+            </a>
+            <a [ngClass]="container.state === 'running' ? 'noEvents transparent btn btn-primary btn-sm' : 'btn btn-danger btn-sm'"
+               (click)="removeContainer(container.id)" style="margin-left: 1em;">
+              <span class="glyphicon glyphicon-remove"></span> remove
+            </a>
+          </div>
+          <div class="col-md-2">{{container.name}}</div>
+          <div class="col-md-1">{{container.id | slice:0:12}}</div>
+          <div class="col-md-2">{{container.status}}</div>
+          <div class="col-md-3"></div>
+        </div>
       </div>
     </div>
   </div>
