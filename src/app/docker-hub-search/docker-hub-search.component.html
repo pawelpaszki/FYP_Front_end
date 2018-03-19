@@ -4,7 +4,7 @@
            #searchTerm (keyup)="updateSearchTerm(searchTerm.value)">
   </div>
   <div class="col-md-1">
-    <button class="btn btn-default btn-sm" (click)="searchDockerHub()">Search</button>
+    <button class="btn btn-inverse btn-sm" (click)="searchDockerHub()" title="search DockerHub"><span class="fa fa-search"></span></button>
   </div>
   <div class="col-md-7"></div>
 </div>
@@ -12,7 +12,6 @@
   <div class="row" *ngFor="let result of searchResults; let i = index" [attr.data-index]="i" style="margin: 1em;">
     {{result}} <span *ngIf="pulledImages.indexOf(result) === -1" class="fa fa-download" (click)="pullImage(result)" style="margin-left: 0.5em;"></span>
     <span *ngIf="pulledImages.indexOf(result) !== -1" class="fa fa-spinner fa-spin" style="margin-left: 0.5em;"></span>
-
   </div>
 </div>
 <div *ngIf="!searchPressed" class="centeredContent">
