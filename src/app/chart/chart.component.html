@@ -1,23 +1,24 @@
-<button
-  *ngIf="token !==''" class="btn btn-default" (click)="goBack()"><span class="glyphicon glyphicon-circle-arrow-left"></span> go back
-</button>
-<h3 style="display: inline; margin-left: 1em;">{{imageName}}</h3>
-<br>
+<div>
+  <button
+    *ngIf="token !==''" class="btn btn-inverse btn-sm" (click)="goBack()"><span class="fa fa-arrow-left"></span>
+  </button>
+  <h3 style="display: inline; margin-left: 1em;">{{imageName}}</h3>
+</div>
 <form class="form-inline">
   <div class="form-group">
     <div class="input-group">
-      <button class="btn btn-default btn-sm" (click)="f.toggle()" type="button">
+      <button class="btn btn-inverse btn-sm" (click)="f.toggle()" type="button">
         <span class="glyphicon glyphicon-calendar"></span> From
       </button>
       <input placeholder="yyyy-mm-dd" style="margin: 1em;" [minDate]="minDate" [maxDate]="maxDate"
              name="dp" [(ngModel)]="from" ngbDatepicker #f="ngbDatepicker" readonly>
-      <button class="btn btn-default btn-sm" (click)="t.toggle()" type="button">
+      <button class="btn btn-inverse btn-sm" (click)="t.toggle()" type="button">
         <span class="glyphicon glyphicon-calendar"></span> To
       </button>
       <input placeholder="yyyy-mm-dd" style="margin: 1em;" [minDate]="from" [maxDate]="maxDate"
              name="dp" [(ngModel)]="to" ngbDatepicker #t="ngbDatepicker">
-      <button class="btn btn-primary btn-sm" (click)="generateChart()" [disabled]="!to || !from" type="button" readonly>
-        generate vulnerability chart
+      <button class="btn btn-inverse btn-sm" (click)="generateChart()" [disabled]="!to || !from" type="button" readonly title="generate vulnerability chart">
+        <span class="fa fa-area-chart"></span>
       </button>
     </div>
   </div>
@@ -45,24 +46,23 @@
     </div>
   </div>
 </div>
-
 <div class="row" *ngIf="vulnerabilityEntries.length > 0" style="margin-left: 1em; margin-top: 1em;">
   <div class="row">
-    <button class="btn btn-primary btn-sm" (click)="showVulnDetails()" type="button" readonly>
-      show vulnerability details
+    <button class="btn btn-inverse btn-sm" (click)="showVulnDetails()" type="button" readonly>
+      <span [ngClass]="vulnerabilityDetailsVisible ? 'fa fa-minus' : 'fa fa-plus'"></span> vulnerability details
     </button>
   </div>
 </div>
 <div class="row" *ngIf="vulnerabilityDetailsVisible" style="margin-left: 1em;">
   <div *ngFor="let vulnEntry of vulnerabilityEntries; let i = index" [attr.data-index]="i">
-    <div class="row">
-      <div (click)="updateVisibleEntries(i)" class="label label-primary">
+    <div class="row" style="margin: 0.2em;">
+      <div (click)="updateVisibleEntries(i)" class="label label-default">
         <span [ngClass]="visibleEntries.indexOf(i) === -1 ? 'glyphicon glyphicon-plus' : 'glyphicon glyphicon-minus'">
         </span>
         {{vulnEntry.date | date:'dd/MM/yyyy' }}
       </div>
     </div>
-    <div class="row" *ngIf="visibleEntries.indexOf(i) !== -1">
+    <div class="row" *ngIf="visibleEntries.indexOf(i) !== -1" style="margin-left: 1em;">
       <h5 *ngIf="vulnEntry.lowSeverity.length > 0">
         Low Severity
       </h5>
