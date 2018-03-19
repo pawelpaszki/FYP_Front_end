@@ -22,6 +22,8 @@ export class ContainersComponent implements OnInit {
   public testsRun: string[] = []; // show test run progress
   public osChecked: string[] = []; // show os check progress
   public packagesChecked: string[] = [];
+  public hoveredImageNameDiv: string[] = [];
+  public hoveredContainerDiv: string[] = [];
   private imageList: IImageModel[] = [];
 
   constructor(private containerService: ContainerService, private imageService: ImageService,
@@ -143,6 +145,7 @@ export class ContainersComponent implements OnInit {
   }
 
   public extractSourceCode(imageName: string): Promise<any>  {
+    this.mouseLeaveImageNameDiv(imageName);
     const p: Promise<any> = new Promise((resolve, reject) => {
       setTimeout(() => {
         const index = this.containerCollection.findIndex((x) => x.imageName === imageName);
@@ -272,6 +275,22 @@ export class ContainersComponent implements OnInit {
         this.sort(true);
       },
     );
+  }
+
+  public mouseEnterContainerDiv(id: string) {
+    this.hoveredContainerDiv.push(id);
+  }
+
+  public mouseLeaveContainerDiv(id: string) {
+    this.hoveredContainerDiv.splice(this.hoveredContainerDiv.indexOf(id), 1);
+  }
+
+  public mouseEnterImageNameDiv(imageName: string) {
+    this.hoveredImageNameDiv.push(imageName);
+  }
+
+  public mouseLeaveImageNameDiv(imageName: string) {
+    this.hoveredImageNameDiv.splice(this.hoveredImageNameDiv.indexOf(imageName), 1);
   }
 
   public sort(noSortChange?: boolean) {
