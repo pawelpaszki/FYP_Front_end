@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {ImageService} from '../services/image.service';
+import {DockerSearchResultsModel} from './docker-search-results.model';
 
 @Component({
   selector: 'app-docker-hub-search',
@@ -10,7 +11,7 @@ export class DockerHubSearchComponent implements OnInit {
 
   public searchPressed: boolean = false;
   public searchTerm: string = '';
-  public searchResults: string[] = [];
+  public searchResults: DockerSearchResultsModel[] = [];
   public emptyResponse: string = 'No images found with provided search term';
   public emptyResponseReceived: boolean = false;
   public pulledImages: string[] = [];
@@ -26,7 +27,10 @@ export class DockerHubSearchComponent implements OnInit {
 
   public searchDockerHub() {
     this.imageService.searchDockerHub(this.searchTerm).subscribe((resp) => {
-      this.searchResults = (resp as any).images.sort();
+      for (const result of (resp as any).results) {
+        this.searchResults.push(new DockerSearchResultsModel(
+          result.name, result. description, result.is_official, result.star_count));
+      }
       this.searchPressed = true;
       this.emptyResponseReceived = this.searchResults.length === 0;
     });

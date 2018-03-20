@@ -1,4 +1,4 @@
-<div class="row bottomMarginSingleLine">
+<div class="row bottomMarginSingleLine" style="background: white; margin-bottom: 1em; z-index: 1; position: fixed; top: 3em; width: 100%; padding-top: 2em; padding-bottom: 1em;">
   <div class="col-md-4">
     <input type="text" placeholder="Search DockerHub" style="width: 100%; margin-top: 0.15em;"
            #searchTerm (keyup)="updateSearchTerm(searchTerm.value)">
@@ -8,10 +8,33 @@
   </div>
   <div class="col-md-7"></div>
 </div>
-<div *ngIf="searchResults.length > 0">
-  <div class="row" *ngFor="let result of searchResults; let i = index" [attr.data-index]="i" style="margin: 1em;">
-    {{result}} <span *ngIf="pulledImages.indexOf(result) === -1" class="fa fa-download" (click)="pullImage(result)" style="margin-left: 0.5em;"></span>
-    <span *ngIf="pulledImages.indexOf(result) !== -1" class="fa fa-spinner fa-spin" style="margin-left: 0.5em;"></span>
+<div *ngIf="searchResults.length > 0" style="margin-top: 8.5em;">
+  <div class="row" style="background: #424242; color: white; line-height: 3em; margin-bottom: 1em; z-index: 2; position: fixed; top: 8em; width: 98%;">
+    <div class="col-md-4">Image name <span (click)="sort()" class="glyphicon glyphicon-sort" aria-hidden=true></span></div>
+    <div class="col-md-5">Description</div>
+    <div class="col-md-1">Is official</div>
+    <div class="col-md-1">Stars</div>
+    <div class="col-md-1">Pull image</div>
+  </div>
+  <div style="margin-top: 11.5em;">
+    <div class="row" *ngFor="let result of searchResults; let i = index" [attr.data-index]="i" style="margin-top: 1em;">
+      <div class="col-md-4">
+        {{result.name}}
+      </div>
+      <div class="col-md-5">
+        {{result.description}}
+      </div>
+      <div class="col-md-1">
+        {{result.official}}
+      </div>
+      <div class="col-md-1">
+        {{result.stars}}
+      </div>
+      <div class="col-md-1">
+       <span *ngIf="pulledImages.indexOf(result) === -1" class="fa fa-download" (click)="pullImage(result)" style="margin-left: 0.5em;"></span>
+      <span *ngIf="pulledImages.indexOf(result) !== -1" class="fa fa-spinner fa-spin" style="margin-left: 0.5em;"></span>
+      </div>
+    </div>
   </div>
 </div>
 <div *ngIf="!searchPressed" class="centeredContent">
