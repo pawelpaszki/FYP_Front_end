@@ -1,19 +1,109 @@
-<div class="centeredContent">
-  <div>
+<div class="row" style="margin: 1em">
+  <div class="col-md-2"></div>
+  <div class="col-md-8">
     <p>
       The main purpose of this application is to display image freshness of a number of sample Docker images.
       Those images are analyzed in daily automated tests to find and record vulnerable components in the source code.
+      As a non-registered user, you can see the image freshness of the images mentioned above in <strong>Images tab</strong>.
+      Additionally, a graphical representation of the number of vulnerable components based on their severity (low, medium or high) is possible
+      to generate over a selected range of time, when clicking <strong>icon chart</strong> button.
     </p>
+    <img width="100%" src="assets/images/imageFreshness.png">
+  </div>
+  <div class="col-md-2"></div>
+</div>
+<div class="row" style="margin: 1em">
+  <div class="col-md-2"></div>
+  <div class="col-md-8">
     <p>
-      As a non-registered user, you can see the image freshness of the images mentioned above in <strong>“Images”</strong> tab. Additionally,
-      a graphical representation of the number of vulnerable components based on their severity (low, medium or high) is possible
-      to generate over a selected range of time, when clicking <strong>“show vulnerability chart”</strong> button beside an image name.
+      The image freshness definition is displayed, when hovering over an <strong>"i"</strong> icon beside <strong>"Freshness grade"</strong> heading.
     </p>
+    <img width="100%" src="assets/images/freshnessDefinition.png">
+  </div>
+  <div class="col-md-2"></div>
+</div>
+<div class="row" style="margin: 1em">
+  <div class="col-md-2"></div>
+  <div class="col-md-8">
+    <p>
+      To generate the vulnerability chart, from and to dates have to be selected from the calendar.
+    </p>
+    <img width="60%" style="display: block; margin: auto" src="assets/images/rangeSelection.png">
+  </div>
+  <div class="col-md-2"></div>
+</div>
+<div class="row" style="margin: 1em">
+  <div class="col-md-2"></div>
+  <div class="col-md-8">
+    <p>
+      The generated chart will show the details of vulnerable components based on their severity per selected time range. Below the chart,
+      the list of all recorded vulnerable components over each of the days in range can also be investigated by pressing the <strong>
+      vulnerability details</strong> button.
+    </p>
+    <img width="100%" src="assets/images/vulnerabilityChart.png">
+  </div>
+  <div class="col-md-2"></div>
+</div>
+<div class="row" style="margin: 1em">
+  <div class="col-md-2"></div>
+  <div class="col-md-8">
     <p>
       Registered and authenticated users are allowed to access several additional features. Such users can pull a new image from
-      Docker Hub from <strong>"Search Docker Hub" </strong> and (assuming that it is a node.js image) and perform all of the steps required to gather the vulnerability information,
-      which involves lifecycle management of Docker containers, including creating, starting and extracting the source code of a container.
-      Once the source code is extracted, npm tests can be run. The list of vulnerable components and available updates can also be retrieved (<strong>"Containers"</strong> tab)
+      Docker Hub from <strong>Search Docker Hub tab</strong>.
     </p>
+    <img width="100%" alt="Angular Logo" src="assets/images/dockerSearch.png">
   </div>
+  <div class="col-md-2"></div>
+</div>
+<div class="row" style="margin: 1em">
+  <div class="col-md-2"></div>
+  <div class="col-md-8">
+    <p>
+      An authenticated users can also remove images without image freshness established.
+    </p>
+    <img width="100%" alt="Angular Logo" src="assets/images/removeImage.png">
+  </div>
+  <div class="col-md-2"></div>
+</div>
+<div class="row" style="margin: 1em">
+  <div class="col-md-2"></div>
+  <div class="col-md-8">
+    <p>
+      From <strong>Containers tab</strong> authenticated users can also perform number of checks of the source code of a selected image.
+    </p>
+    <img width="100%" alt="Angular Logo" src="assets/images/analyzeSrc.png">
+  </div>
+  <div class="col-md-2"></div>
+</div>
+<div class="row" style="margin: 1em">
+  <div class="col-md-2"></div>
+  <div class="col-md-8">
+    <p>
+      After successful execution of those checks, their results will be available to see.
+    </p>
+    <img width="100%" alt="Angular Logo" src="assets/images/results.png">
+    <p></p>
+    <img width="100%" alt="Angular Logo" src="assets/images/resultsExpanded.png">
+  </div>
+  <div class="col-md-2"></div>
+</div>
+<div class="row" style="margin: 1em">
+  <div class="col-md-2"></div>
+  <div class="col-md-8">
+    <p>
+      From <strong>Containers tab</strong> individual containers can be stopped, started and removed, depending on their current state.
+    </p>
+    <img width="100%" alt="Angular Logo" src="assets/images/containerActions.png">
+  </div>
+  <div class="col-md-2"></div>
+</div>
+<div class="row" style="margin: 1em">
+  <div class="col-md-2"></div>
+  <div class="col-md-8">
+    <p>
+      From <strong>Account tab</strong> it is possible to update the password
+    </p>
+    <img width="100%" alt="Angular Logo" src="assets/images/account.png">
+  </div>
+  <div class="col-md-2"></div>
 </div>
