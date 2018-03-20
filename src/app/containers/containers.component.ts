@@ -208,7 +208,12 @@ export class ContainersComponent implements OnInit {
               const name = container.Image.toString().includes(':') ? container.Image : container.Image.concat(
                 ':' + this.getImageTag(container.ImageID));
               const imageNameTokens: string[] = name.split('/');
-              const dirName = imageNameTokens[0].toUpperCase() + imageNameTokens[1].toLowerCase();
+              let dirName: string = '';
+              if (imageNameTokens.length == 2) {
+                dirName = imageNameTokens[0].toUpperCase() + imageNameTokens[1].toLowerCase();
+              } else {
+                dirName = imageNameTokens[0];
+              }
               let exists: boolean = false;
               for (const containerCol of this.containerCollection) {
                 if (containerCol.imageName === name) {
@@ -254,6 +259,7 @@ export class ContainersComponent implements OnInit {
   }
 
   public startContainer(containerId: string) {
+    this.hoveredContainerDiv = [];
     this.containerService.startContainer(containerId).subscribe(() => {
         this.getContainersList();
         this.sort(true);
@@ -262,6 +268,7 @@ export class ContainersComponent implements OnInit {
   }
 
   public stopContainer(containerId: string) {
+    this.hoveredContainerDiv = [];
     this.containerService.stopContainer(containerId).subscribe(() => {
         this.getContainersList();
         this.sort(true);
@@ -270,6 +277,7 @@ export class ContainersComponent implements OnInit {
   }
 
   public removeContainer(containerId: string) {
+    this.hoveredContainerDiv = [];
     this.containerService.removeContainer(containerId).subscribe(() => {
         this.getContainersList();
         this.sort(true);

@@ -11,6 +11,9 @@ const httpOptions = {
 @Injectable()
 export class ImageService {
 
+  public pulledImageInProgress: string[] = [];
+  public imageRemovalInProgress: string[] = [];
+
   constructor(private http: HttpClient, private toastr: ToastrService) {
 
   }
@@ -23,6 +26,7 @@ export class ImageService {
   }
 
   public removeImage(id: string): Observable<any> {
+    this.imageRemovalInProgress.push(id);
     const token: string = localStorage.getItem('token');
     const authHttpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json', 'x-access-token': token }),
@@ -49,6 +53,7 @@ export class ImageService {
   }
 
   public pullImage(imageName: string): Observable<any[]> {
+    this.pulledImageInProgress.push(imageName);
     const token: string = localStorage.getItem('token');
     const headers = new HttpHeaders({ 'x-access-token': token});
     return this.http.post<any[]>('http://localhost:3000/api/images/pull', {imageName}, {headers}).pipe(

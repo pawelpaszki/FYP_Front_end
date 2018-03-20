@@ -16,7 +16,7 @@ export class ImagesComponent implements OnInit {
   public showFreshnessDefinition: boolean;
   private token: string;
 
-  constructor(private imageService: ImageService, private containerService: ContainerService) {
+  constructor(public imageService: ImageService, public containerService: ContainerService) {
     this.getImagesList();
   }
 
@@ -47,6 +47,7 @@ export class ImagesComponent implements OnInit {
   public removeImage(id: string) {
     this.imageService.removeImage(id).subscribe(() => {
         this.getImagesList();
+        this.imageService.imageRemovalInProgress.splice(this.imageService.imageRemovalInProgress.indexOf(id), 1);
       },
     );
   }
@@ -59,7 +60,10 @@ export class ImagesComponent implements OnInit {
 
   public createContainer(name: string) {
     console.log('create container');
-    this.containerService.createContainer(name).subscribe(() => {});
+    this.containerService.createContainer(name).subscribe(() => {
+      this.containerService.createdContainerInProgress.splice(
+        this.containerService.createdContainerInProgress.indexOf(name), 1);
+    });
   }
 
   public sort() {

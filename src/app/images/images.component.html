@@ -21,17 +21,23 @@
     <div class="col-md-2"><app-freshness-indicator [grade]="image.freshnessGrade" [tag]="image.tag"></app-freshness-indicator></div>
     <div class="col-md-3" [ngClass]="hoveredImageDivId.indexOf(image.id) !== -1 && hoveredImageDivTag.indexOf(image.tag) !== -1 ? '' : 'noEvents transparent'">
       <button title="Create a new container"
-              *ngIf="token !==''" class="btn btn-inverse btn-sm" (click)="createContainer(image.name.concat(':' + image.tag))">
+              *ngIf="token !=='' && containerService.createdContainerInProgress.indexOf(image.name.concat(':' + image.tag)) === -1" class="btn btn-inverse btn-sm" (click)="createContainer(image.name.concat(':' + image.tag))">
         <span class="glyphicon glyphicon-plus"></span>
       </button>
+      <span
+        *ngIf="containerService.createdContainerInProgress.indexOf(image.name.concat(':' + image.tag)) !== -1" class="fa fa-spinner fa-spin" style="font-size:1.5em;">
+      </span>
       <button title="show vulnerability chart"
               [ngClass]="image.freshnessGrade ==='' || image.tag !== 'latest' ? 'noEvents transparent btn btn-inverse btn-sm' : 'btn btn-inverse btn-sm'"
               [routerLink]="['/chart', image.name]"><span class="fa fa-area-chart"></span>
       </button>
       <button title="remove image"
               [ngClass]="token ==='' ? 'noEvents transparent btn btn-primary btn-sm' : 'btn btn-primary btn-sm'" (click)="removeImage(image.id)"
-              *ngIf="image.freshnessGrade === '' || image.tag !== 'latest'" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-remove"></span>
+              *ngIf="imageService.imageRemovalInProgress.indexOf(image.id) === -1 && (image.freshnessGrade === '' || image.tag !== 'latest')" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-remove"></span>
       </button>
+      <span
+              *ngIf="imageService.imageRemovalInProgress.indexOf(image.id) !== -1" class="fa fa-spinner fa-spin" style="font-size:1.5em;">
+      </span>
     </div>
   </div>
 </div>

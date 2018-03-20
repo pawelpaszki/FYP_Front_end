@@ -10,6 +10,8 @@ import {IImageModel} from '../images/image.model';
 @Injectable()
 export class ContainerService {
 
+  public createdContainerInProgress: string[] = [];
+
   constructor(private http: HttpClient, private toastr: ToastrService) {
 
   }
@@ -23,6 +25,7 @@ export class ContainerService {
   }
 
   public createContainer(imageName: string): Observable<any[]> {
+    this.createdContainerInProgress.push(imageName);
     const token: string = localStorage.getItem('token');
     const headers = new HttpHeaders({ 'x-access-token': token});
     return this.http.post<any[]>('http://localhost:3000/api/containers/create', {imageName}, {headers}).pipe(

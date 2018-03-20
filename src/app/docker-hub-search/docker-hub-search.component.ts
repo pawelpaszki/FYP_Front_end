@@ -14,9 +14,8 @@ export class DockerHubSearchComponent implements OnInit {
   public searchResults: DockerSearchResultsModel[] = [];
   public emptyResponse: string = 'No images found with provided search term';
   public emptyResponseReceived: boolean = false;
-  public pulledImages: string[] = [];
 
-  constructor(private imageService: ImageService) { }
+  constructor(public imageService: ImageService) { }
 
   public ngOnInit() {
   }
@@ -26,6 +25,7 @@ export class DockerHubSearchComponent implements OnInit {
   }
 
   public searchDockerHub() {
+    this.searchResults = [];
     this.imageService.searchDockerHub(this.searchTerm).subscribe((resp) => {
       for (const result of (resp as any).results) {
         this.searchResults.push(new DockerSearchResultsModel(
@@ -37,9 +37,8 @@ export class DockerHubSearchComponent implements OnInit {
   }
 
   public pullImage(imageName: string) {
-    this.pulledImages.push(imageName);
     this.imageService.pullImage(imageName).subscribe(() => {
-      this.pulledImages.splice(this.pulledImages.indexOf(imageName), 1);
+        this.imageService.pulledImageInProgress.splice(this.imageService.pulledImageInProgress.indexOf(imageName), 1);
       },
     );
   }

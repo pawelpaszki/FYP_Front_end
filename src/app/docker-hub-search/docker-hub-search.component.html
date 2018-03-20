@@ -31,8 +31,8 @@
         {{result.stars}}
       </div>
       <div class="col-md-1">
-       <span *ngIf="pulledImages.indexOf(result) === -1" class="fa fa-download" (click)="pullImage(result)" style="margin-left: 0.5em;"></span>
-      <span *ngIf="pulledImages.indexOf(result) !== -1" class="fa fa-spinner fa-spin" style="margin-left: 0.5em;"></span>
+       <span *ngIf="imageService.pulledImageInProgress.indexOf(result.name) === -1" class="fa fa-download" (click)="pullImage(result.name)" style="margin-left: 0.5em;"></span>
+      <span *ngIf="imageService.pulledImageInProgress.indexOf(result.name) !== -1" class="fa fa-spinner fa-spin" style="margin-left: 0.5em;"></span>
       </div>
     </div>
   </div>
