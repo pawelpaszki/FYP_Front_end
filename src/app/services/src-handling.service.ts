@@ -20,7 +20,7 @@ export class SrcHandlingService {
     const authHttpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json', 'x-access-token': token }),
     };
-    return this.http.get<any[]>('http://localhost:3000/api/misc/availableDirs', authHttpOptions)
+    return this.http.get<any[]>('http://localhost:3000/api/src/availableDirs', authHttpOptions)
       .pipe(
         tap(() => {}),
       );
@@ -50,7 +50,7 @@ export class SrcHandlingService {
   public runNpmTests(imageName: string) {
     const token: string = localStorage.getItem('token');
     const headers = new HttpHeaders({ 'x-access-token': token});
-    return this.http.post<any[]>('http://localhost:3000/api/npm/tests',
+    return this.http.post<any[]>('http://localhost:3000/api/src/tests',
       {imageName}, {headers}).pipe(
       tap((_) =>
         this.toastr.success('Npm tests finished for: ' + imageName, 'Success')),
@@ -60,7 +60,7 @@ export class SrcHandlingService {
   public checkOS(imageName: string) {
     const token: string = localStorage.getItem('token');
     const headers = new HttpHeaders({ 'x-access-token': token});
-    return this.http.post<any[]>('http://localhost:3000/api/misc/checkOS',
+    return this.http.post<any[]>('http://localhost:3000/api/src/checkOS',
       {imageName}, {headers}).pipe(
       tap((_) =>
         this.toastr.success('OS information retrieved for: ' + imageName, 'Success')),
