@@ -3,7 +3,6 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-account',
-  styleUrls: ['./account.component.css'],
   templateUrl: './account.component.html',
 })
 export class AccountComponent implements OnInit {

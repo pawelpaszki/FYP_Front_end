@@ -8,7 +8,6 @@ import {IContainerModel} from './container.model';
 
 @Component({
   selector: 'app-containers',
-  styleUrls: ['./containers.component.css'],
   templateUrl: './containers.component.html',
 })
 export class ContainersComponent implements OnInit {

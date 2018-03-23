@@ -4,7 +4,6 @@ import {DockerSearchResultsModel} from './docker-search-results.model';
 
 @Component({
   selector: 'app-docker-hub-search',
-  styleUrls: ['./docker-hub-search.component.css'],
   templateUrl: './docker-hub-search.component.html',
 })
 export class DockerHubSearchComponent implements OnInit {

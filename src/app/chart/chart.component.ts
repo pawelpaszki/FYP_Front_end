@@ -5,7 +5,6 @@ import {ImageService} from '../services/image.service';
 
 @Component({
   selector: 'app-chart',
-  styleUrls: ['./chart.component.css'],
   templateUrl: './chart.component.html',
 })
 export class ChartComponent implements OnInit {
