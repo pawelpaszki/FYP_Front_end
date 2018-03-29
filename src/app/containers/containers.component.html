@@ -59,15 +59,39 @@
         </div>
       </div>
       <div class="row" *ngIf="visibleResponseAreas.indexOf(containerCol.imageName) !== -1">
-        <div class="col-md-3"></div>
-        <div class="col-md-6" style="height: auto;">
+        <div class="col-md-12" style="height: auto;">
           <div *ngIf="containerCol.resultDisplayed === 'vulnerable'">
-            <h4>Vulnerable components:</h4>
-            <p *ngFor="let vulnerability of containerCol.vulnComponents">
-              {{vulnerability}}
-            </p>
-            <h4>Updates:</h4>
-            <p *ngFor="let update of containerCol.updates">
+            <h4 class="centered">Vulnerable components:</h4>
+            <div class="row" style="background: #424242; color: white; padding-top: 0.2em; padding-bottom: 0.2em;">
+              <div class="col-md-2">
+                Name
+              </div>
+              <div class="col-md-4">
+                Dependency Path
+              </div>
+              <div class="col-md-3">
+                Description
+              </div>
+              <div class="col-md-3">
+                Remediation
+              </div>
+            </div>
+            <div class="row" *ngFor="let vulnerability of containerCol.vulnComponents" style="margin-top: 0.4em; margin-bottom: 0.4em;">
+              <div class="col-md-2">
+                {{vulnerability.name}}
+              </div>
+              <div class="col-md-4">
+                {{vulnerability.dependencyPath}}
+              </div>
+              <div class="col-md-3">
+                {{vulnerability.description}}
+              </div>
+              <div class="col-md-3">
+                {{vulnerability.remediation}}
+              </div>
+            </div>
+            <h4 class="centered">Updates:</h4>
+            <p *ngFor="let update of containerCol.updates" class="centered">
               {{update}}
             </p>
           </div>
@@ -87,7 +111,6 @@
             </p>
           </div>
         </div>
-        <div class="col-md-3"></div>
       </div>
       <div *ngFor="let container of containerCol.containers">
         <div class="row" style="margin-bottom: 0.5em; margin-top: 0.5em;"
@@ -95,8 +118,8 @@
           <div class="col-md-4">
           </div>
           <div class="col-md-2" style="padding-bottom: 0.5em; padding-top: 0.5em;">{{container.name}}</div>
-          <div class="col-md-1">{{container.id | slice:0:12}}</div>
-          <div class="col-md-2">{{container.status}}</div>
+          <div class="col-md-1" style="padding-bottom: 0.5em; padding-top: 0.5em;">{{container.id | slice:0:12}}</div>
+          <div class="col-md-2" style="padding-bottom: 0.5em; padding-top: 0.5em;">{{container.status}}</div>
           <div class="col-md-3" *ngIf="hoveredContainerDiv.indexOf(container.id) !== -1">
             <a [ngClass]="container.state === 'running' ? 'noEvents transparent btn btn-inverse btn-sm' : 'btn btn-inverse btn-sm'"
                (click)="startContainer(container.id)" title="start container" *ngIf="containerService.startedContainerInProgress.indexOf(container.id) === -1">

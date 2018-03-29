@@ -5,6 +5,7 @@ import {ImageService} from '../services/image.service';
 import {SrcHandlingService} from '../services/src-handling.service';
 import {IContainerCollection} from './container-collection.model';
 import {IContainerModel} from './container.model';
+import {IVulnerabilityEntryModel} from './vulnerability-entry.model';
 
 @Component({
   selector: 'app-containers',
@@ -57,7 +58,7 @@ export class ContainersComponent implements OnInit {
         }
         that.srcHandlingService.queriedContainers.splice(
           that.srcHandlingService.queriedContainers.indexOf(imageName), 1);
-        that.srcHandlingService.osChecked.splice(that.testsRun.indexOf(imageName), 1);
+        that.srcHandlingService.osChecked.splice(that.srcHandlingService.osChecked.indexOf(imageName), 1);
       });
     }
     extractIfNeeded(that);
@@ -105,33 +106,17 @@ export class ContainersComponent implements OnInit {
           updateString += update + ',';
         }
         updateString = updateString.substring(0, updateString.length - 1);
-        let vulnerableString: string = '';
-        let vulnerableComponents: string[] = [];
-        let vulnEntry: string = '';
-        for (const lowVuln of (resp as any).vulnerabilityCheckRecord.lowSeverity) {
-          vulnEntry = lowVuln.name + ' (dependency path: ' + lowVuln.dependencyPath + '),';
-          vulnerableComponents.push(vulnEntry);
-          vulnerableString += vulnEntry;
+        const vulnEntries: IVulnerabilityEntryModel[] = [];
+        vulnEntries.push(...(resp as any).vulnerabilityCheckRecord.lowSeverity);
+        vulnEntries.push(...(resp as any).vulnerabilityCheckRecord.mediumSeverity);
+        vulnEntries.push(...(resp as any).vulnerabilityCheckRecord.highSeverity);
+        if (vulnEntries.length === 0) {
+          vulnEntries.push(new IVulnerabilityEntryModel('', '', '', ''));
         }
-        for (const mediumVuln of (resp as any).vulnerabilityCheckRecord.mediumSeverity) {
-          vulnEntry = mediumVuln.name + ' (dependency path: ' + mediumVuln.dependencyPath + '),';
-          vulnerableComponents.push(vulnEntry);
-          vulnerableString += vulnEntry;
-        }
-        for (const highVuln of (resp as any).vulnerabilityCheckRecord.highSeverity) {
-          vulnEntry = highVuln.name + ' (dependency path: ' + highVuln.dependencyPath + '),';
-          vulnerableComponents.push(vulnEntry);
-          vulnerableString += vulnEntry;
-        }
-        vulnerableString = vulnerableString.substring(0, vulnerableString.length - 1);
-        if (vulnerableString.length === 0) {
-          vulnerableString = 'No vulnerable components found';
-        }
-        vulnerableComponents = Array.from(new Set(vulnerableComponents)).sort();
-        that.containerCollection[index].vulnComponents = vulnerableComponents;
+        that.containerCollection[index].vulnComponents = vulnEntries;
         if (imageName.indexOf('latest') === -1) {
           localStorage.setItem(updateKey, updateString);
-          localStorage.setItem(vulnKey, vulnerableString);
+          localStorage.setItem(vulnKey, JSON.stringify(vulnEntries));
         }
         that.srcHandlingService.queriedContainers.splice(
           that.srcHandlingService.queriedContainers.indexOf(imageName), 1);
@@ -232,7 +217,7 @@ export class ContainersComponent implements OnInit {
                     container.Id, container.Names[0], container.Status, container.State, container.ImageID));
                 const vulnCompsKey: string = name + 'vulnerable';
                 if (localStorage.getItem(vulnCompsKey) !== null) {
-                  let vulnComponents: string[] = localStorage.getItem(vulnCompsKey).split(',');
+                  let vulnComponents: IVulnerabilityEntryModel[] = JSON.parse(localStorage.getItem(vulnCompsKey));
                   vulnComponents = Array.from(new Set(vulnComponents)).sort();
                   this.containerCollection[this.containerCollection.length - 1].vulnComponents = vulnComponents;
                 }
