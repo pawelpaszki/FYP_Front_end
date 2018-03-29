@@ -38,9 +38,9 @@ export class ImagesComponent implements OnInit {
     this.hoveredImageDivTag.push(tag);
   }
 
-  public mouseLeaveDiv(id: string, tag: string) {
-    this.hoveredImageDivId.splice(this.hoveredImageDivId.indexOf(id), 1);
-    this.hoveredImageDivTag.splice(this.hoveredImageDivTag.indexOf(tag), 1);
+  public mouseLeaveDiv() {
+    this.hoveredImageDivId = [];
+    this.hoveredImageDivTag = [];
   }
 
   public removeImage(id: string) {

@@ -24,7 +24,6 @@ export class HttpErrorInterceptService implements HttpInterceptor {
       .catch((response: any) => {
         if (response instanceof HttpErrorResponse) {
           if (response.error.error !== null) {
-            // console.log(response.url.toString());
             if (response.url.toString().includes('login') ||
               response.url.toString().includes('register')) {
               this.toastr.error(response.error.error, 'Error');

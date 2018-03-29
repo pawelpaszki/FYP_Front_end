@@ -11,6 +11,12 @@ const httpOptions = {
 @Injectable()
 export class SrcHandlingService {
 
+  public extractedSrcContainers: string[] = []; // show extract progress
+  public queriedContainers: string[] = []; // disable ui actions
+  public vulnCompsChecked: string[] = []; // show vuln comp check progress
+  public testsRun: string[] = []; // show test run progress
+  public osChecked: string[] = []; // show os check progress
+
   constructor(private http: HttpClient, private toastr: ToastrService) {
 
   }

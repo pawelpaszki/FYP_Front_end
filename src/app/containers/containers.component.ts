@@ -14,12 +14,7 @@ export class ContainersComponent implements OnInit {
 
   public containerCollection: IContainerCollection[] = [];
   public searchTerm: string = '';
-  public queriedContainers: string[] = []; // disable ui actions
   public visibleResponseAreas: string[] = []; // show response area
-  public extractedSrcContainers: string[] = []; // show extract progress
-  public vulnCompsChecked: string[] = []; // show vuln comp check progress
-  public testsRun: string[] = []; // show test run progress
-  public osChecked: string[] = []; // show os check progress
   public packagesChecked: string[] = [];
   public hoveredImageNameDiv: string[] = [];
   public hoveredContainerDiv: string[] = [];
@@ -46,8 +41,8 @@ export class ContainersComponent implements OnInit {
   }
 
   public checkOS(imageName: string) {
-    this.queriedContainers.push(imageName);
-    this.osChecked.push(imageName);
+    this.srcHandlingService.queriedContainers.push(imageName);
+    this.srcHandlingService.osChecked.push(imageName);
     const that = this;
     async function extractIfNeeded(that) {
       await that.extractSourceCode(imageName);
@@ -60,16 +55,17 @@ export class ContainersComponent implements OnInit {
         if (imageName.indexOf('latest') === -1) {
           localStorage.setItem(osKey, osString);
         }
-        that.queriedContainers.splice(that.queriedContainers.indexOf(imageName), 1);
-        that.osChecked.splice(that.testsRun.indexOf(imageName), 1);
+        that.srcHandlingService.queriedContainers.splice(
+          that.srcHandlingService.queriedContainers.indexOf(imageName), 1);
+        that.srcHandlingService.osChecked.splice(that.testsRun.indexOf(imageName), 1);
       });
     }
     extractIfNeeded(that);
   }
 
   public runTests(imageName: string) {
-    this.queriedContainers.push(imageName);
-    this.testsRun.push(imageName);
+    this.srcHandlingService.queriedContainers.push(imageName);
+    this.srcHandlingService.testsRun.push(imageName);
     const that = this;
     async function extractIfNeeded(that) {
       await that.extractSourceCode(imageName);
@@ -85,16 +81,17 @@ export class ContainersComponent implements OnInit {
         if (imageName.indexOf('latest') === -1) {
           localStorage.setItem(testKey, testString);
         }
-        that.queriedContainers.splice(that.queriedContainers.indexOf(imageName), 1);
-        that.testsRun.splice(that.testsRun.indexOf(imageName), 1);
+        that.srcHandlingService.queriedContainers.splice(
+          that.srcHandlingService.queriedContainers.indexOf(imageName), 1);
+        that.srcHandlingService.testsRun.splice(that.testsRun.indexOf(imageName), 1);
       });
     }
     extractIfNeeded(that);
   }
 
   public checkVulnComp(imageName: string) {
-    this.queriedContainers.push(imageName);
-    this.vulnCompsChecked.push(imageName);
+    this.srcHandlingService.queriedContainers.push(imageName);
+    this.srcHandlingService.vulnCompsChecked.push(imageName);
     const that = this;
     async function extractIfNeeded(that) {
       await that.extractSourceCode(imageName);
@@ -136,20 +133,20 @@ export class ContainersComponent implements OnInit {
           localStorage.setItem(updateKey, updateString);
           localStorage.setItem(vulnKey, vulnerableString);
         }
-        that.queriedContainers.splice(that.queriedContainers.indexOf(imageName), 1);
-        that.vulnCompsChecked.splice(that.vulnCompsChecked.indexOf(imageName), 1);
+        that.srcHandlingService.queriedContainers.splice(
+          that.srcHandlingService.queriedContainers.indexOf(imageName), 1);
+        that.srcHandlingService.vulnCompsChecked.splice(that.srcHandlingService.vulnCompsChecked.indexOf(imageName), 1);
       });
     }
     extractIfNeeded(that);
   }
 
   public extractSourceCode(imageName: string): Promise<any>  {
-    this.mouseLeaveImageNameDiv(imageName);
     const p: Promise<any> = new Promise((resolve, reject) => {
       setTimeout(() => {
         const index = this.containerCollection.findIndex((x) => x.imageName === imageName);
         if (!this.containerCollection[index].srcExtracted) {
-          this.extractedSrcContainers.push(imageName);
+          this.srcHandlingService.extractedSrcContainers.push(imageName);
           let runningContainerIndex: number = -1;
           for (let i = 0; i < this.containerCollection[index].containers.length; i++) {
             if (this.containerCollection[index].containers[i].state === 'running') {
@@ -159,11 +156,15 @@ export class ContainersComponent implements OnInit {
           }
           if (runningContainerIndex === -1) {
             this.containerService.startContainer(this.containerCollection[index].containers[0].id).subscribe(() => {
+                this.containerService.startedContainerInProgress.splice(
+                  this.containerService.startedContainerInProgress.indexOf(
+                    this.containerCollection[index].containers[0].id, 1));
                 this.containerCollection[index].containers[0].state = 'running';
                 this.containerCollection[index].containers[0].status = 'Up Less than a second';
                 this.srcHandlingService.extractSourceCode(
                   imageName, this.containerCollection[index].containers[0].id).subscribe(() => {
-                  this.extractedSrcContainers.splice(this.extractedSrcContainers.indexOf(imageName), 1);
+                  this.srcHandlingService.extractedSrcContainers.splice(
+                    this.srcHandlingService.extractedSrcContainers.indexOf(imageName), 1);
                   this.containerCollection[index].srcExtracted = true;
                   resolve('');
                 });
@@ -172,7 +173,8 @@ export class ContainersComponent implements OnInit {
           } else {
             this.srcHandlingService.extractSourceCode(
               imageName, this.containerCollection[index].containers[runningContainerIndex].id).subscribe(() => {
-              this.extractedSrcContainers.splice(this.extractedSrcContainers.indexOf(imageName), 1);
+              this.srcHandlingService.extractedSrcContainers.splice(
+                this.srcHandlingService.extractedSrcContainers.indexOf(imageName), 1);
               this.containerCollection[index].srcExtracted = true;
               resolve('done');
             });
@@ -208,7 +210,7 @@ export class ContainersComponent implements OnInit {
                 ':' + this.getImageTag(container.ImageID));
               const imageNameTokens: string[] = name.split('/');
               let dirName: string = '';
-              if (imageNameTokens.length == 2) {
+              if (imageNameTokens.length === 2) {
                 dirName = imageNameTokens[0].toUpperCase() + imageNameTokens[1].toLowerCase();
               } else {
                 dirName = imageNameTokens[0];
@@ -260,6 +262,8 @@ export class ContainersComponent implements OnInit {
   public startContainer(containerId: string) {
     this.hoveredContainerDiv = [];
     this.containerService.startContainer(containerId).subscribe(() => {
+        this.containerService.startedContainerInProgress.splice(
+          this.containerService.startedContainerInProgress.indexOf(containerId, 1));
         this.getContainersList();
         this.sort(true);
       },
@@ -269,6 +273,8 @@ export class ContainersComponent implements OnInit {
   public stopContainer(containerId: string) {
     this.hoveredContainerDiv = [];
     this.containerService.stopContainer(containerId).subscribe(() => {
+        this.containerService.stoppedContainerInProgress.splice(
+          this.containerService.stoppedContainerInProgress.indexOf(containerId, 1));
         this.getContainersList();
         this.sort(true);
       },
@@ -278,8 +284,23 @@ export class ContainersComponent implements OnInit {
   public removeContainer(containerId: string) {
     this.hoveredContainerDiv = [];
     this.containerService.removeContainer(containerId).subscribe(() => {
-        this.getContainersList();
-        this.sort(true);
+        this.containerService.removedContainerInProgress.splice(
+          this.containerService.removedContainerInProgress.indexOf(containerId, 1));
+        let collectionIndex = 0;
+        let containersIndex = 0;
+        for (let i = 0; i < this.containerCollection.length; i++) {
+          for (let j = 0; j < this.containerCollection[i].containers.length; j++) {
+            if (this.containerCollection[i].containers[j].id === containerId) {
+              collectionIndex = i;
+              containersIndex = j;
+              break;
+            }
+          }
+        }
+        this.containerCollection[collectionIndex].containers.splice(containersIndex, 1);
+        if (this.containerCollection[collectionIndex].containers.length === 0) {
+          this.containerCollection.splice(collectionIndex, 1);
+        }
       },
     );
   }
@@ -288,16 +309,16 @@ export class ContainersComponent implements OnInit {
     this.hoveredContainerDiv.push(id);
   }
 
-  public mouseLeaveContainerDiv(id: string) {
-    this.hoveredContainerDiv.splice(this.hoveredContainerDiv.indexOf(id), 1);
+  public mouseLeaveContainerDiv() {
+    this.hoveredContainerDiv = [];
   }
 
   public mouseEnterImageNameDiv(imageName: string) {
     this.hoveredImageNameDiv.push(imageName);
   }
 
-  public mouseLeaveImageNameDiv(imageName: string) {
-    this.hoveredImageNameDiv.splice(this.hoveredImageNameDiv.indexOf(imageName), 1);
+  public mouseLeaveImageNameDiv() {
+    this.hoveredImageNameDiv = [];
   }
 
   public sort(noSortChange?: boolean) {

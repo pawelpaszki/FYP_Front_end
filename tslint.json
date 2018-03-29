@@ -17,6 +17,7 @@
       ]
     },
     "no-empty": false,
+    "no-shadowed-variable": false,
     "no-console": [false],
     "new-parens": true,
     "no-arg": true,

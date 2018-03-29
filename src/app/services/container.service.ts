@@ -11,6 +11,9 @@ import {IImageModel} from '../images/image.model';
 export class ContainerService {
 
   public createdContainerInProgress: string[] = [];
+  public startedContainerInProgress: string[] = [];
+  public stoppedContainerInProgress: string[] = [];
+  public removedContainerInProgress: string[] = [];
 
   constructor(private http: HttpClient, private toastr: ToastrService) {
 
@@ -35,6 +38,7 @@ export class ContainerService {
   }
 
   public startContainer(containerId: string): Observable<any[]> {
+    this.startedContainerInProgress.push(containerId);
     const token: string = localStorage.getItem('token');
     const headers = new HttpHeaders({ 'x-access-token': token});
     return this.http.post<any[]>('http://localhost:3000/api/containers/start', {containerId}, {headers}).pipe(
@@ -44,6 +48,7 @@ export class ContainerService {
   }
 
   public stopContainer(containerId: string): Observable<any[]> {
+    this.stoppedContainerInProgress.push(containerId);
     const token: string = localStorage.getItem('token');
     const headers = new HttpHeaders({ 'x-access-token': token});
     return this.http.post<any[]>('http://localhost:3000/api/containers/stop', {containerId}, {headers}).pipe(
@@ -53,6 +58,7 @@ export class ContainerService {
   }
 
   public removeContainer(containerId: string): Observable<any> {
+    this.removedContainerInProgress.push(containerId);
     const token: string = localStorage.getItem('token');
     const authHttpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json', 'x-access-token': token }),

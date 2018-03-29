@@ -13,7 +13,7 @@
   <app-freshness-definition></app-freshness-definition>
 </div>
 <div [ngStyle]="{'margin-top' : showFreshnessDefinition ? '0em' : '10em' }">
-  <div class="row" *ngFor="let image of images" style="margin-bottom: 0.3em" (mouseenter)="mouseEnterDiv(image.id, image.tag)"  (mouseleave)="mouseLeaveDiv(image.id, image.tag)">
+  <div class="row" *ngFor="let image of images" style="margin-bottom: 0.3em" (mouseenter)="mouseEnterDiv(image.id, image.tag)"  (mouseleave)="mouseLeaveDiv()">
     <div class="col-md-4">{{image.name}}</div>
     <div class="col-md-1">{{image.id | slice:0:12}}</div>
     <div class="col-md-1">{{image.tag}}</div>

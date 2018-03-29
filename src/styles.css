@@ -261,3 +261,9 @@ em {float:right; color: #E05C65; padding-left: 1em;}
   pointer-events: none;
   opacity: 0.25;
 }
+
+.centered {
+  display: flex;
+  align-items: center;
+  justify-content: center
+}
