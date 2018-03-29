@@ -33,6 +33,7 @@ export class HttpErrorInterceptService implements HttpInterceptor {
                 this.toastr.error('Unauthorized to perform this operation. Please sign in', 'Error');
                 this.router.navigate(['login']);
                 localStorage.setItem('token', '');
+                localStorage.setItem('username', '');
               } else {
                 this.toastr.warning(response.error.error, 'Error');
               }
