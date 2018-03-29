@@ -16,6 +16,7 @@ export class SrcHandlingService {
   public vulnCompsChecked: string[] = []; // show vuln comp check progress
   public testsRun: string[] = []; // show test run progress
   public osChecked: string[] = []; // show os check progress
+  public packagesChecked: string[] = []; // show package check progress
 
   constructor(private http: HttpClient, private toastr: ToastrService) {
 
@@ -70,6 +71,16 @@ export class SrcHandlingService {
       {imageName}, {headers}).pipe(
       tap((_) =>
         this.toastr.success('OS information retrieved for: ' + imageName, 'Success')),
+    );
+  }
+
+  public checkPackages(imageName: string) {
+    const token: string = localStorage.getItem('token');
+    const headers = new HttpHeaders({ 'x-access-token': token});
+    return this.http.post<any[]>('http://localhost:3000/api/src/checkPackages',
+      {imageName}, {headers}).pipe(
+      tap((_) =>
+        this.toastr.success('Installed packages info retrieved for: ' + imageName, 'Success')),
     );
   }
 

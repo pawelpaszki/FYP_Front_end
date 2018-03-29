@@ -7,6 +7,7 @@ export class IContainerCollection {
   public srcExtracted: boolean;
   public vulnComponents: IVulnerabilityEntryModel[] = [];
   public updates: string[]= [];
+  public packages: string[]= [];
   public testResults: string[]= [];
   public osDetails: string = '';
   public resultDisplayed: string = '';

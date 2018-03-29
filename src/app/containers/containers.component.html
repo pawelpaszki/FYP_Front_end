@@ -21,22 +21,30 @@
         <span *ngIf="srcHandlingService.extractedSrcContainers.indexOf(containerCol.imageName) !== -1">
           extracting source code <span class="fa fa-spinner fa-spin" style="margin-left: 0.5em;"></span>
         </span>
-          <span (click)="showResultArea(containerCol.imageName, 'vulnerable')" *ngIf="containerCol.vulnComponents.length !== 0">
+        <span (click)="showResultArea(containerCol.imageName, 'vulnerable')" *ngIf="containerCol.vulnComponents.length !== 0">
           Vulnerable components <span [ngClass]="containerCol.resultDisplayed === 'vulnerable' ? 'glyphicon glyphicon-eye-close' : 'glyphicon glyphicon-eye-open'"></span>
         </span>
-          <span *ngIf="srcHandlingService.vulnCompsChecked.indexOf(containerCol.imageName) !== -1">
+        <span *ngIf="srcHandlingService.vulnCompsChecked.indexOf(containerCol.imageName) !== -1">
           checking for vulnerable components <span class="fa fa-spinner fa-spin" style="margin-left: 0.5em;"></span>
         </span>
-          <span (click)="showResultArea(containerCol.imageName, 'tests')" *ngIf="containerCol.testResults.length !== 0" style="margin-left: 1em;">
+
+        <span (click)="showResultArea(containerCol.imageName, 'packages')" *ngIf="containerCol.packages.length !== 0" style="margin-left: 1em;">
+          Packages' List <span [ngClass]="containerCol.resultDisplayed === 'packages' ? 'glyphicon glyphicon-eye-close' : 'glyphicon glyphicon-eye-open'"></span>
+        </span>
+        <span *ngIf="srcHandlingService.packagesChecked.indexOf(containerCol.imageName) !== -1">
+          Checking packages <span class="fa fa-spinner fa-spin" style="margin-left: 1em;"></span>
+        </span>
+
+        <span (click)="showResultArea(containerCol.imageName, 'tests')" *ngIf="containerCol.testResults.length !== 0" style="margin-left: 1em;">
           Test results <span [ngClass]="containerCol.resultDisplayed === 'tests' ? 'glyphicon glyphicon-eye-close' : 'glyphicon glyphicon-eye-open'"></span>
         </span>
-          <span *ngIf="srcHandlingService.testsRun.indexOf(containerCol.imageName) !== -1">
+        <span *ngIf="srcHandlingService.testsRun.indexOf(containerCol.imageName) !== -1">
           executing tests <span class="fa fa-spinner fa-spin" style="margin-left: 1em;"></span>
         </span>
-          <span (click)="showResultArea(containerCol.imageName, 'os')" *ngIf="containerCol.osDetails.length !== 0" style="margin-left: 1em;">
+        <span (click)="showResultArea(containerCol.imageName, 'os')" *ngIf="containerCol.osDetails.length !== 0" style="margin-left: 1em;">
           OS details <span [ngClass]="containerCol.resultDisplayed === 'os' ? 'glyphicon glyphicon-eye-close' : 'glyphicon glyphicon-eye-open'"></span>
         </span>
-          <span *ngIf="srcHandlingService.osChecked.indexOf(containerCol.imageName) !== -1">
+        <span *ngIf="srcHandlingService.osChecked.indexOf(containerCol.imageName) !== -1">
           checking OS details <span class="fa fa-spinner fa-spin" style="margin-left: 0.5em;"></span>
         </span>
         </div>
@@ -45,7 +53,8 @@
              *ngIf="srcHandlingService.vulnCompsChecked.indexOf(containerCol.imageName) === -1 && containerCol.vulnComponents.length === 0">
             <span class="fa fa-exclamation-triangle"></span>
           </a>
-          <a class="btn btn-inverse btn-sm" style="margin-left: 1em;" title="get installed packages">
+          <a class="btn btn-inverse btn-sm" style="margin-left: 1em;" (click)="checkPackages(containerCol.imageName)" title="get installed packages"
+             *ngIf="srcHandlingService.packagesChecked.indexOf(containerCol.imageName) === -1 && containerCol.packages.length === 0">
             <span class="fa fa-list"></span>
           </a>
           <a class="btn btn-inverse btn-sm" (click)="runTests(containerCol.imageName)" style="margin-left: 1em;" title="run tests"
@@ -96,7 +105,10 @@
             </p>
           </div>
           <div *ngIf="containerCol.resultDisplayed === 'packages'" >
-
+            <h4 class="centered">Installed packages:</h4>
+            <p *ngFor="let pack of containerCol.packages" class="centered">
+              {{pack}}
+            </p>
           </div>
           <div *ngIf="containerCol.resultDisplayed === 'tests'" >
             <h4 class="centered">Test results:</h4>

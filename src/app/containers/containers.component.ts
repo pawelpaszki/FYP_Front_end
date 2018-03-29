@@ -16,7 +16,6 @@ export class ContainersComponent implements OnInit {
   public containerCollection: IContainerCollection[] = [];
   public searchTerm: string = '';
   public visibleResponseAreas: string[] = []; // show response area
-  public packagesChecked: string[] = [];
   public hoveredImageNameDiv: string[] = [];
   public hoveredContainerDiv: string[] = [];
   private imageList: IImageModel[] = [];
@@ -59,6 +58,33 @@ export class ContainersComponent implements OnInit {
         that.srcHandlingService.queriedContainers.splice(
           that.srcHandlingService.queriedContainers.indexOf(imageName), 1);
         that.srcHandlingService.osChecked.splice(that.srcHandlingService.osChecked.indexOf(imageName), 1);
+      });
+    }
+    extractIfNeeded(that);
+  }
+
+  public checkPackages(imageName: string) {
+    this.srcHandlingService.queriedContainers.push(imageName);
+    this.srcHandlingService.packagesChecked.push(imageName);
+    const that = this;
+    async function extractIfNeeded(that) {
+      await that.extractSourceCode(imageName);
+      that.srcHandlingService.checkPackages(imageName).subscribe((resp) => {
+        const index = that.containerCollection.findIndex((x) => x.imageName === imageName);
+        console.log(resp);
+        that.containerCollection[index].packages = (resp as any).packages;
+        const packagesKey: string = imageName + 'packages';
+        let packagesString: string = '';
+        for (const pack of (resp as any).packages) {
+          packagesString += pack + ',';
+        }
+        packagesString = packagesString.substring(0, packagesString.length - 1);
+        if (imageName.indexOf('latest') === -1) {
+          localStorage.setItem(packagesKey, packagesString);
+        }
+        that.srcHandlingService.queriedContainers.splice(
+          that.srcHandlingService.queriedContainers.indexOf(imageName), 1);
+        that.srcHandlingService.packagesChecked.splice(that.srcHandlingService.packagesChecked.indexOf(imageName), 1);
       });
     }
     extractIfNeeded(that);
@@ -225,6 +251,11 @@ export class ContainersComponent implements OnInit {
                 if (localStorage.getItem(updateKey) !== null) {
                   this.containerCollection[this.containerCollection.length - 1].updates =
                     localStorage.getItem(updateKey).split(',');
+                }
+                const packageKey: string = name + 'packages';
+                if (localStorage.getItem(packageKey) !== null) {
+                  this.containerCollection[this.containerCollection.length - 1].packages =
+                    localStorage.getItem(packageKey).split(',');
                 }
                 const testKey: string = name + 'tests';
                 if (localStorage.getItem(testKey) !== null) {
