@@ -17,6 +17,7 @@ import { DockerHubSearchComponent } from './docker-hub-search/docker-hub-search.
 import {FreshnessDefinitionComponent} from './images/freshness-definition.component';
 import {FreshnessIndicatorComponent} from './images/freshness-indicator.component';
 import { ImagesComponent } from './images/images.component';
+import {LogsComponent} from './logs/logs.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { appRoutes } from './routes';
 import {AuthService} from './services/auth.service';
@@ -40,6 +41,7 @@ import {OnAuthRouteActivator} from './shared/onAuthRouteActivator';
     FreshnessDefinitionComponent,
     FreshnessIndicatorComponent,
     DockerHubSearchComponent,
+    LogsComponent,
     NavbarComponent,
   ],
   imports: [

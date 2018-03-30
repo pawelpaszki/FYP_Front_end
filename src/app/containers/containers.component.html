@@ -4,7 +4,7 @@
   </div>
   <div class="col-md-8"></div>
 </div>
-<div class="row" style="background: #424242; color: white; line-height: 3em; z-index: 2; position: fixed; top: 8em; width: 98.2%;">
+<div class="row" style="background: #424242; color: white; line-height: 3em; z-index: 2; position: fixed; top: 8em; width: 98%;">
   <div class="col-md-4">Image name <span (click)="sort()" class="glyphicon glyphicon-sort" aria-hidden=true></span></div>
   <div class="col-md-2">Name</div>
   <div class="col-md-1">ID</div>
@@ -138,21 +138,21 @@
               <span class="glyphicon glyphicon-play"></span>
             </a>
             <span
-              *ngIf="containerService.startedContainerInProgress.indexOf(container.id) !== -1" class="fa fa-spinner fa-spin" style="font-size:1.5em;">
+              *ngIf="containerService.startedContainerInProgress.indexOf(container.id) !== -1" class="fa fa-spinner fa-spin" style="font-size:1.5em; margin-top: 0.3em;">
             </span>
             <a [ngClass]="container.state !== 'running' ? 'noEvents transparent btn btn-inverse btn-sm' : 'btn btn-inverse btn-sm'"
                (click)="stopContainer(container.id)" style="margin-left: 1em;" title="stop container" *ngIf="containerService.stoppedContainerInProgress.indexOf(container.id) === -1">
               <span class="glyphicon glyphicon-stop"></span>
             </a>
             <span
-              *ngIf="containerService.stoppedContainerInProgress.indexOf(container.id) !== -1" class="fa fa-spinner fa-spin" style="font-size:1.5em; margin-left: 1em;">
+              *ngIf="containerService.stoppedContainerInProgress.indexOf(container.id) !== -1" class="fa fa-spinner fa-spin" style="font-size:1.5em; margin-left: 1em;  margin-top: 0.3em;">
             </span>
             <a [ngClass]="container.state === 'running' ? 'noEvents transparent btn btn-danger btn-sm' : 'btn btn-danger btn-sm'"
                (click)="removeContainer(container.id)" style="margin-left: 1em;" title="remove container" *ngIf="containerService.removedContainerInProgress.indexOf(container.id) === -1">
               <span class="glyphicon glyphicon-remove"></span>
             </a>
             <span
-              *ngIf="containerService.removedContainerInProgress.indexOf(container.id) !== -1" class="fa fa-spinner fa-spin" style="font-size:1.5em; margin-left: 1em;">
+              *ngIf="containerService.removedContainerInProgress.indexOf(container.id) !== -1" class="fa fa-spinner fa-spin" style="font-size:1.5em; margin-left: 1em; margin-top: 0.3em;">
             </span>
           </div>
         </div>

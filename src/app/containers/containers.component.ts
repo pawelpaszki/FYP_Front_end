@@ -110,7 +110,7 @@ export class ContainersComponent implements OnInit {
         }
         that.srcHandlingService.queriedContainers.splice(
           that.srcHandlingService.queriedContainers.indexOf(imageName), 1);
-        that.srcHandlingService.testsRun.splice(that.testsRun.indexOf(imageName), 1);
+        that.srcHandlingService.testsRun.splice(that.srcHandlingService.testsRun.indexOf(imageName), 1);
       });
     }
     extractIfNeeded(that);

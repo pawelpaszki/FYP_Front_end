@@ -22,6 +22,17 @@ export class SrcHandlingService {
 
   }
 
+  public getLogs(): Observable<any[]> {
+    const token: string = localStorage.getItem('token');
+    const authHttpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json', 'x-access-token': token }),
+    };
+    return this.http.get<any[]>('http://localhost:3000/api/logs', authHttpOptions)
+      .pipe(
+        tap(() => {}),
+      );
+  }
+
   public getExtractedDirectories(): Observable<any[]> {
     const token: string = localStorage.getItem('token');
     const authHttpOptions = {

@@ -1,0 +1,26 @@
+<div style="background: white; color: white; line-height: 3em; margin-bottom: 1em; z-index: 1; position: fixed; top: 3.5em; width: 100%;">
+  blank filler
+</div>
+<div class="row" style="background: #424242; color: white; line-height: 3em; margin-bottom: 1em; z-index: 2; position: fixed; top: 5em; width: 98%;">
+  <div class="col-md-3">Items per page:
+    <span style="margin-left: 0.5em; cursor: pointer;" [ngClass]="{'large': itemsPerPage === 50}" (click)="setItemsPerPage(50)">50</span>
+    <span style="margin-left: 0.5em; cursor: pointer;" [ngClass]="{'large': itemsPerPage === 200}" (click)="setItemsPerPage(200)">200</span>
+    <span style="margin-left: 0.5em; cursor: pointer;" [ngClass]="{'large': itemsPerPage === 100000}" (click)="setItemsPerPage(100000)">all</span>
+  </div>
+  <div class="col-md-5" style="text-align:right;">Show Logs:</div>
+  <div class="col-md-4" style="text-align:right;">
+    <div *ngFor="let pagination of paginationElements; let i = index" style="display: inline;">
+      <span (click)="setPageItems(pagination.startIndex, pagination.endIndex, i)"
+        [ngClass]="pagination.startIndex === pageItems[0] ? 'large' : ''" style="margin-right: 0.5em;"
+        *ngIf="pageItemsButtonsToShow.indexOf(i) !== -1"
+      >{{pagination.startIndex}}-{{pagination.endIndex}}</span>
+    </div>
+  </div>
+</div>
+<div style="margin-top: 10em;">
+  <div *ngFor="let logItem of logItems; let i = index" style="margin:0.3em; cursor: pointer;">
+    <div *ngIf="i >= pageItems[0] - 1 && i < pageItems[1]">
+      {{logItem}}
+    </div>
+  </div>
+</div>
