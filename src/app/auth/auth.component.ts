@@ -13,8 +13,6 @@ export class AuthComponent implements OnInit {
   public username: FormControl;
   public password: FormControl;
   public invalidCredentials: boolean = false;
-  public signUpUnsuccessful: boolean = false;
-  public authAction = 'login';
   private authAttempted: boolean;
 
 
@@ -32,8 +30,7 @@ export class AuthComponent implements OnInit {
 
   public authenticate(formValues) {
     this.authAttempted = true;
-    if (this.authAction === 'login') {
-      if (this.username.valid && this.password.valid) {
+    if (this.username.valid && this.password.valid) {
         this.authService.loginUser(formValues.username, formValues.password).subscribe(() => {
             this.router.navigate(['images']);
             localStorage.setItem('username', formValues.username);
@@ -42,19 +39,6 @@ export class AuthComponent implements OnInit {
             this.invalidCredentials = true;
           });
       }
-    } else {
-      console.log('signup', formValues);
-      if (this.authForm.valid) {
-        this.authService.signUpUser(formValues.username, formValues.password).subscribe((resp) => {
-          console.log(resp);
-          this.router.navigate(['images']);
-          localStorage.setItem('username', formValues.username);
-          },
-          () => {
-            this.signUpUnsuccessful = true;
-          });
-      }
-    }
   }
 
   public invalidUsername() {
@@ -65,11 +49,5 @@ export class AuthComponent implements OnInit {
   public invalidPassword() {
     return (!this.password.valid && !this.password.untouched) ||
       (this.authAttempted === true && this.password.value === '');
-  }
-
-  public setAuthAction(value) {
-    this.authAction = value;
-    this.invalidCredentials = false;
-    this.signUpUnsuccessful = false;
   }
 }
