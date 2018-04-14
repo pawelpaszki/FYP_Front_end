@@ -58,7 +58,6 @@ export class ImagesComponent implements OnInit {
   }
 
   public createContainer(name: string) {
-    console.log('create container');
     this.containerService.createContainer(name).subscribe(() => {
       this.containerService.createdContainerInProgress.splice(
         this.containerService.createdContainerInProgress.indexOf(name), 1);

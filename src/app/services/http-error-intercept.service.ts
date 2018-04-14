@@ -32,11 +32,11 @@ export class HttpErrorInterceptService implements HttpInterceptor {
               response.url.toString().includes('register')) {
               this.toastr.error(response.error.error, 'Error');
             } else {
+              this.clearAllInProgress();
               if (response.error.error === 'No token provided.' ||
                 response.error.error === 'Unable to authenticate token.') {
                 this.toastr.error('Unauthorized to perform this operation. Please sign in', 'Error');
                 this.router.navigate(['login']);
-                this.clearAllInProgress();
                 localStorage.setItem('token', '');
                 localStorage.setItem('username', '');
               } else if (response.error.error === 'Image cannot be removed') {

@@ -82,7 +82,6 @@ export class ChartComponent implements OnInit {
     const endDate: Date = new Date(this.to.year, this.to.month - 1, this.to.day);
     endDate.setHours(23);
     this.imageService.getVulnerabilityCheckRecords(startDate, endDate, this.imageName).subscribe((resp) => {
-      console.log(resp);
       this.vulnerabilityEntries = resp;
       for (const entry of (resp as any)) {
           this.lineChartLabels.push(new Date(entry.date).toISOString().split('T')[0]);
@@ -93,14 +92,6 @@ export class ChartComponent implements OnInit {
       this.lineChartData = this.lineChartData.slice();
       },
     );
-  }
-
-  public chartClicked(e: any): void {
-    console.log(e);
-  }
-
-  public chartHovered(e: any): void {
-    // console.log(e);
   }
 
   public showVulnDetails() {

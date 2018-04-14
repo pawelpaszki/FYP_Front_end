@@ -71,7 +71,6 @@ export class ContainersComponent implements OnInit {
       await that.extractSourceCode(imageName);
       that.srcHandlingService.checkPackages(imageName).subscribe((resp) => {
         const index = that.containerCollection.findIndex((x) => x.imageName === imageName);
-        console.log(resp);
         that.containerCollection[index].packages = (resp as any).packages;
         const packagesKey: string = imageName + 'packages';
         let packagesString: string = '';

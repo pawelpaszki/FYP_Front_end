@@ -103,24 +103,32 @@
             <p *ngFor="let update of containerCol.updates" class="centered">
               {{update}}
             </p>
+            <hr style="border: 0.1em solid black;">
           </div>
+
           <div *ngIf="containerCol.resultDisplayed === 'packages'" >
             <h4 class="centered">Installed packages:</h4>
             <p *ngFor="let pack of containerCol.packages" class="centered">
               {{pack}}
             </p>
+            <hr style="border: 0.1em solid black;">
+
           </div>
           <div *ngIf="containerCol.resultDisplayed === 'tests'" >
             <h4 class="centered">Test results:</h4>
             <p *ngFor="let test of containerCol.testResults" class="centered">
               {{test}}
             </p>
+            <hr style="border: 0.1em solid black;">
+
           </div>
           <div *ngIf="containerCol.resultDisplayed === 'os'">
             <h4 class="centered">OS details:</h4>
             <p class="centered">
               {{containerCol.osDetails}}
             </p>
+            <hr style="border: 0.1em solid black;">
+
           </div>
         </div>
       </div>
